@@ -17,3 +17,5 @@ Edit `config.js`:
 ```js
 window.APP_CONFIG = { API_BASE_URL: 'https://your-render-backend.onrender.com' };
 ```
+
+Redeploy trigger 08/30/2026 15:44:56

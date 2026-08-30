@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Traffic Safety Simulation - V2.5.2 Frontend-Backend</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#f5f7fb;color:#10243a;-webkit-text-size-adjust:100%}
+header{background:#0b4f7a;color:#fff;padding:14px 16px}
+header h1{font-size:18px;line-height:1.3;margin:0}
+header p{font-size:13px;margin:4px 0 0}
+.wrap{max-width:1100px;margin:0 auto;padding:10px}
+.card{background:#fff;border:1px solid #d7e2ef;border-radius:12px;padding:12px;margin:10px 0}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:10px}
+label{display:block;font-weight:bold;font-size:12px;margin-bottom:5px}
+input,select,button{width:100%;min-height:42px;font-size:16px;padding:8px;border:1px solid #cbd5e1;border-radius:8px;background:#fff}
+button{background:#0d6fb8;color:#fff;border:0;font-weight:bold}
+button.alt{background:#e7eef8;color:#0b4f7a;border:1px solid #bcd0e8}
+button.warn{background:#d35400;color:#fff}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.tabbtn{width:auto;min-height:38px;border-radius:999px;padding:8px 12px;background:#e7eef8;color:#0b4f7a;border:1px solid #bcd0e8}
+.tabbtn.active{background:#0d6fb8;color:#fff}
+.tabpage{display:none}.tabpage.active{display:block}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(160px,1fr));gap:10px}
+.kpi{background:#f7fbff;border:1px solid #cfdeed;border-radius:10px;padding:12px;min-height:78px}
+.kpi .t{font-size:12px;font-weight:bold}.kpi .v{font-size:20px;font-weight:bold;margin-top:9px;color:#0b4f7a;word-break:break-word}
+.bad{color:#d91f26!important}.ok{color:#0c7a43!important}.warnText{color:#b86a00!important}
+.rules{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.rule{text-align:center;border:1px solid #d7e2ef;border-radius:10px;padding:10px}.rule span{font-size:22px;color:#d91f26;font-weight:bold}
+.small{font-size:12px;color:#64748b;line-height:1.45}.note{background:#fff7ed;border:1px solid #fed7aa;color:#7c2d12;border-radius:10px;padding:10px;font-size:12px;line-height:1.45}
+.chartbar{display:flex;gap:8px;align-items:center;margin:6px 0}.chartbar .lab{width:80px;font-size:12px;color:#475569;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.chartbar .track{height:18px;flex:1;background:#e8eef7;border-radius:999px;overflow:hidden}.chartbar .fill{height:18px;background:#0d6fb8;border-radius:999px}.chartbar .val{width:58px;text-align:right;font-size:12px}
+.tableWrap{overflow:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border:1px solid #dbe4ef;padding:7px;text-align:right}th{background:#eaf2fb}td:first-child,th:first-child{text-align:left}
+.roadBox{background:#172033;border-radius:14px;padding:12px;overflow:hidden}.road{position:relative;height:220px;background:#343a46;border:4px solid #202734;border-radius:10px;overflow:hidden}.road:after{content:"";position:absolute;left:0;right:0;top:0;bottom:0;background-image:linear-gradient(90deg,rgba(255,255,255,.12) 0 18px,transparent 18px 55px);background-size:90px 2px;background-repeat:repeat-x;background-position:0 50%;opacity:.2;pointer-events:none}
+.laneLine{position:absolute;left:0;right:0;border-top:3px dashed rgba(255,255,255,.55)}.laneTag{position:absolute;left:10px;z-index:3;background:rgba(15,23,42,.85);color:#fff;font-size:12px;font-weight:700;padding:3px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.25);box-shadow:0 1px 3px rgba(0,0,0,.25)}.car{position:absolute;width:38px;height:20px;border-radius:10px;background:#22c55e;border:2px solid #fff;box-shadow:0 2px 5px #0008}.car:before,.car:after{content:"";position:absolute;bottom:-5px;width:8px;height:8px;border-radius:50%;background:#111}.car:before{left:7px}.car:after{right:7px}.car.violate{background:#ef4444}.car.warnCar{background:#f59e0b}.carLabel{position:absolute;font-size:10px;color:#fff;top:-17px;left:-2px;background:rgba(0,0,0,.55);padding:1px 3px;border-radius:4px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;color:#eaf2ff;font-size:12px;margin-top:10px;background:rgba(255,255,255,.08);border-radius:10px;padding:8px 10px}.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:4px;vertical-align:middle}
+.animInfo{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:10px}.box{background:#f8fbff;border:1px solid #d8e2ef;border-radius:10px;padding:10px}
+.error{display:none;background:#fee2e2;border:1px solid #fecaca;color:#991b1b;border-radius:10px;padding:10px;margin:10px 0;font-size:13px}.status{background:#ecfdf5;border:1px solid #bbf7d0;color:#166534;border-radius:10px;padding:8px;margin:10px 0;font-size:12px}
+.footer{text-align:center;color:#64748b;font-size:13px;padding:14px 0 22px}
+@media(max-width:800px){.grid,.kpis,.rules{grid-template-columns:1fr}.animInfo{grid-template-columns:1fr 1fr}header h1{font-size:17px}th,td{font-size:12px;padding:6px}.tabbtn{font-size:13px}}
+
+.chartbar{display:grid;grid-template-columns:minmax(120px,180px) minmax(120px,1fr) minmax(48px,64px);gap:10px;align-items:center;margin:8px 0}
+.chartbar .lab{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.25;color:#0b2545;font-size:13px}
+.chartbar .track{height:18px;background:#e7eef7;border-radius:999px;overflow:hidden;min-width:0}
+.chartbar .fill{height:100%;background:#1479bf;border-radius:999px}
+.chartbar .val{text-align:right;font-size:13px;color:#0b2545}
+@media(max-width:640px){.chartbar{grid-template-columns:1fr 48px;gap:6px}.chartbar .lab{grid-column:1 / -1}.chartbar .track{grid-column:1}.chartbar .val{grid-column:2}}
+
+
+.laneInfoTag{position:absolute;right:10px;z-index:3;background:rgba(255,255,255,.88);color:#0b2545;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;border:1px solid rgba(15,23,42,.2);box-shadow:0 1px 3px rgba(0,0,0,.2);max-width:48%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:640px){.laneInfoTag{font-size:10px;right:6px;max-width:58%}.laneTag{left:6px;font-size:11px}}
+
+
+.behCareful{color:#0c7a43;font-weight:bold}.behNormal{color:#0b4f7a;font-weight:bold}.behAggressive{color:#b86a00;font-weight:bold}.behDistracted{color:#d91f26;font-weight:bold}.laneTag{line-height:1.25;max-width:360px}
+</style>
+</head>
+<body>
+<header><h1>Mô phỏng khoảng cách an toàn, ùn tắc và xác suất vi phạm - V2.5.2 Frontend–Backend</h1><p> (Các tham số trong mô hình được giả định. Người dùng có thể điều chỉnh theo số liệu thực tế).</p></header>
+<div class="wrap">
+<div id="status" class="status">JS status: đang khởi tạo...</div>
+<div id="apiStatus" class="status">Backend status: chưa kiểm tra</div>
+<div id="err" class="error"></div>
+<div class="tabs">
+<button id="tabMain" class="tabbtn active" type="button">Dashboard mô phỏng</button>
+<button id="tabAnim" class="tabbtn" type="button">Animation dòng xe</button>
+<button id="tabFormula" class="tabbtn" type="button">Công thức</button>
+</div>
+<div id="mainTab" class="tabpage active">
+<div class="card note"><b>Mô hình V2.5.2:</b> Hai chỉ tiêu: <b>P(%) vi phạm chuẩn</b> so với khoảng cách an toàn pháp lý/chung d_safe(V), và <b>P(%) không đạt khoảng cách mong muốn</b> so với d_safe(V) × hệ số hành vi. </div>
+<div class="card rules"><div class="rule"><b>V ≤ 60 km/h</b><br><span>35 m</span></div><div class="rule"><b>60 &lt; V ≤ 80</b><br><span>55 m</span></div><div class="rule"><b>80 &lt; V ≤ 100</b><br><span>70 m</span></div><div class="rule"><b>100 &lt; V ≤ 120</b><br><span>100 m</span></div></div>
+<div class="card"><h3>1. Tham số đầu vào</h3><div class="grid">
+<div><label>Chiều dài tuyến L (km)</label><input id="L" type="number" value="50"></div>
+<div><label>Số làn</label><select id="lanes"><option>2</option><option selected>3</option></select></div>
+<div><label>Lưu lượng Q (xe/ngày đêm)</label><input id="Q" type="number" value="35000"></div>
+<div><label>Tốc độ tham chiếu V (legacy, km/h)</label><input id="V" type="number" value="80"></div>
+<div><label>Hệ số giờ cao điểm K</label><input id="K" type="number" step="0.005" value="0.10"></div>
+<div><label>Năng lực C (xe/h/làn)</label><input id="C" type="number" value="1800"></div>
+<div><label>CV khoảng cách xe</label><input id="CV" type="number" step="0.05" value="0.75"></div>
+<div><label>Số lần mô phỏng</label><input id="N" type="number" value="500"></div>
+<div><label>Phân bổ lưu lượng</label><select id="mode"><option value="uniform">Đều theo làn</option><option value="unbalanced">Không đều theo làn</option></select></div>
+<div><label>Chế độ ngưỡng</label><select id="thresholdMode"><option value="dynamic">Ngưỡng an toàn động</option><option value="fixed">Ngưỡng cố định</option></select></div>
+<div><label>Ngưỡng cố định</label><input id="jam" type="number" value="60"></div>
+<div><label>&nbsp;</label><button id="runBtn" type="button">RUN Simulation</button></div>
+</div><p class="small">V2.5.2 dùng vận tốc ngẫu nhiên theo từng làn. Các giá trị min/max bên dưới có thể điều chỉnh trực tiếp, áp dụng cho cả Dashboard và Animation. Ô V chỉ còn là tốc độ tham chiếu legacy.</p></div>
+
+<div class="card">
+<h3>1b. Tham số random speed theo từng làn</h3>
+<div class="grid">
+<div><label>Làn 1 - V min (km/h)</label><input id="lane1Min" type="number" value="60"></div>
+<div><label>Làn 1 - V max (km/h)</label><input id="lane1Max" type="number" value="100"></div>
+<div><label>Làn 2 - V min (km/h)</label><input id="lane2Min" type="number" value="80"></div>
+<div><label>Làn 2 - V max (km/h)</label><input id="lane2Max" type="number" value="100"></div>
+<div><label>Làn 3 - V min (km/h)</label><input id="lane3Min" type="number" value="100"></div>
+<div><label>Làn 3 - V max (km/h)</label><input id="lane3Max" type="number" value="120"></div>
+<div><label>Gia tốc phục hồi (km/h/step)</label><input id="accelStep" type="number" step="0.1" value="1.2"></div>
+<div><label>Giảm tốc khi bám sát (km/h/step)</label><input id="decelStep" type="number" step="0.1" value="3.0"></div>
+</div>
+<p class="small">Từ V2.4.7, car-following được dùng cho cả Dashboard và Animation. Các tham số gia tốc/giảm tốc sẽ ảnh hưởng trực tiếp đến xác suất vi phạm động.</p>
+</div>
+
+<div class="card">
+<h3>1c. Tham số mô phỏng rủi ro động V2.4.7</h3>
+<div class="grid">
+<div><label>Số bước mô phỏng động</label><input id="dynSteps" type="number" value="300"></div>
+<div><label>Bước bỏ qua ban đầu</label><input id="warmupSteps" type="number" value="50"></div>
+<div><label>Thời gian phản ứng lái xe (s)</label><input id="reactTime" type="number" step="0.1" value="1.5"></div>
+<div><label>Giảm tốc khẩn cấp (m/s²)</label><input id="emgDecel" type="number" step="0.1" value="4.0"></div>
+</div>
+<p class="small"><b>P vi phạm chuẩn</b> = tỷ lệ quan sát có gap &lt; d_safe(V). <b>P không đạt khoảng cách mong muốn</b> = tỷ lệ quan sát có gap &lt; d_safe(V) × gap_factor_driver. <b>P phản ứng giảm tốc</b> = tỷ lệ xe phải giảm tốc vì đi gần xe trước. <b>P rủi ro phanh</b> = tỷ lệ tình huống khoảng cách nhỏ hơn khoảng cách dừng xe sơ bộ.</p>
+</div>
+
+<div class="card">
+<h3>1d. Tham số hành vi lái xe V2.5</h3>
+<div class="grid">
+<div><label>Tỷ lệ tài xế cẩn thận (%)</label><input id="drvCareful" type="number" value="20"></div>
+<div><label>Tỷ lệ tài xế bình thường (%)</label><input id="drvNormal" type="number" value="60"></div>
+<div><label>Tỷ lệ tài xế mạo hiểm (%)</label><input id="drvAggressive" type="number" value="15"></div>
+<div><label>Tỷ lệ tài xế mất tập trung (%)</label><input id="drvDistracted" type="number" value="5"></div>
+<div><label>Hệ số khoảng cách - Cẩn thận</label><input id="gapCareful" type="number" step="0.05" value="1.20"></div>
+<div><label>Hệ số khoảng cách - Bình thường</label><input id="gapNormal" type="number" step="0.05" value="1.00"></div>
+<div><label>Hệ số khoảng cách - Mạo hiểm</label><input id="gapAggressive" type="number" step="0.05" value="0.75"></div>
+<div><label>Hệ số khoảng cách - Mất tập trung</label><input id="gapDistracted" type="number" step="0.05" value="0.90"></div>
+<div><label>Thời gian phản ứng - Cẩn thận (s)</label><input id="rtCareful" type="number" step="0.1" value="1.0"></div>
+<div><label>Thời gian phản ứng - Bình thường (s)</label><input id="rtNormal" type="number" step="0.1" value="1.5"></div>
+<div><label>Thời gian phản ứng - Mạo hiểm (s)</label><input id="rtAggressive" type="number" step="0.1" value="1.3"></div>
+<div><label>Thời gian phản ứng - Mất tập trung (s)</label><input id="rtDistracted" type="number" step="0.1" value="2.5"></div>
+</div>
+<p class="small">Các tỷ lệ tài xế sẽ được tự động chuẩn hóa nếu tổng khác 100%. Hệ số khoảng cách lớn hơn 1 nghĩa là tài xế giữ khoảng cách thận trọng hơn; nhỏ hơn 1 nghĩa là có xu hướng bám sát hơn.</p>
+</div>
+<div class="card"><h3>2. Kết quả tổng hợp</h3><div class="kpis">
+<div class="kpi"><div class="t">Khoảng cách an toàn TB</div><div id="k1" class="v">-</div></div><div class="kpi"><div class="t">Lưu lượng giờ cao điểm</div><div id="k2" class="v">-</div></div><div class="kpi"><div class="t">Mật độ TB</div><div id="k3" class="v">-</div></div><div class="kpi"><div class="t">V/C ratio</div><div id="k4" class="v">-</div></div>
+<div class="kpi"><div class="t">Mức cảnh báo</div><div id="k5" class="v">-</div></div><div class="kpi"><div class="t">P vi phạm chuẩn</div><div id="k6" class="v">-</div></div><div class="kpi"><div class="t">P mật độ vượt ngưỡng</div><div id="k7" class="v">-</div></div><div class="kpi"><div class="t">Số xe kỳ vọng</div><div id="k8" class="v">-</div></div>
+<div class="kpi"><div class="t">Khoảng cách TB</div><div id="k9" class="v">-</div></div><div class="kpi"><div class="t">Ngưỡng đang dùng</div><div id="k10" class="v">-</div></div><div class="kpi"><div class="t">Nhóm tài xế rủi ro nhất</div><div id="k14" class="v">-</div></div><div class="kpi"><div class="t">Tỷ lệ mạo hiểm + mất tập trung</div><div id="k15" class="v">-</div></div><div class="kpi"><div class="t">P không đạt khoảng cách mong muốn</div><div id="k16" class="v">-</div></div><div class="kpi"><div class="t">Congestion Index</div><div id="k17" class="v">-</div></div><div class="kpi"><div class="t">Mức ùn tắc tổng hợp</div><div id="k18" class="v">-</div></div><div class="kpi"><div class="t">Nguyên nhân chính gây ùn tắc</div><div id="k19" class="v">-</div></div><div class="kpi"><div class="t">P phản ứng giảm tốc</div><div id="k11" class="v">-</div></div><div class="kpi"><div class="t">P rủi ro phanh không kịp</div><div id="k12" class="v">-</div></div><div class="kpi"><div class="t">V trung bình sau điều chỉnh</div><div id="k13" class="v">-</div></div>
+</div></div>
+<div class="card"><h3>3. Phân phối mật độ</h3><div id="densityChart"></div></div>
+<div class="card"><h3>4. Chỉ số ùn tắc tổng hợp</h3><div id="congestionChart"></div><p class="small"><b>Congestion Index</b> kết hợp 4 thành phần: V/C, mật độ so với ngưỡng an toàn, xác suất vượt ngưỡng mật độ và suy giảm vận tốc sau điều chỉnh.</p></div><div class="card"><h3>5. Xác suất rủi ro động</h3><div id="violationChart"></div></div>
+<div class="card"><h3>6. Rủi ro theo hành vi lái xe</h3><div id="behaviorChart"></div><div class="tableWrap"><table><thead><tr><th>Nhóm tài xế</th><th>Tỷ lệ đầu vào</th><th>Số quan sát</th><th>P vi phạm chuẩn</th><th>P không đạt KC mong muốn</th><th>P phản ứng</th><th>P rủi ro phanh</th><th>Ý nghĩa</th></tr></thead><tbody id="behaviorTb"></tbody></table></div></div><div class="card"><h3>7. Bảng theo làn</h3><div class="tableWrap"><table><thead><tr><th>Làn</th><th>Dải tốc độ</th><th>V mong muốn TB</th><th>V sau điều chỉnh</th><th>Q ngày</th><th>Q peak</th><th>Số xe kỳ vọng</th><th>Xe mô phỏng</th><th>Mật độ</th><th>d_safe TB</th><th>Gap TB</th><th>P vi phạm chuẩn</th><th>P không đạt KC mong muốn</th><th>P phản ứng</th><th>P rủi ro phanh</th><th>P vượt ngưỡng</th><th>Đánh giá</th></tr></thead><tbody id="tb"></tbody></table></div></div>
+</div>
+<div id="animTab" class="tabpage"><div class="card"><h3>Animation dòng xe</h3><p class="small">Animation speed, Minimum render gap và Anti-overlap rendering chỉ thay đổi cách vẽ xe trên màn hình, <b>không ảnh hưởng kết quả mô phỏng</b>. V2.5.2 phân bổ số xe hiển thị theo mật độ từng làn</p>
+<div class="grid">
+<div><label>Chiều dài đoạn hiển thị (km)</label><input id="animLen" type="number" value="2"></div>
+<div><label>Animation speed: <span id="animSpeedLabel">3.0×</span></label><input id="animSpeed" type="range" value="3" min="0.5" max="10" step="0.5"></div>
+<div><label>Minimum render gap (m)</label><input id="animMinDrawGap" type="number" value="35"></div>
+<div><label>Anti-overlap rendering</label><label class="small"><input id="antiOverlap" type="checkbox" checked> Bật chống chồng xe</label></div>
+<div><label>Số xe mô phỏng thực tế</label><input id="animExpectedCarsBox" type="text" value="Tự động" readonly></div>
+<div><label>Số xe hiển thị tự động</label><input id="animDisplayCarsBox" type="text" value="Tự động" readonly></div>
+<div><label>&nbsp;</label><button id="startBtn" type="button">Start / Refresh</button></div><div><label>&nbsp;</label><button id="pauseBtn" class="alt" type="button">Pause</button></div><div><label>&nbsp;</label><button id="resetBtn" class="warn" type="button">Reset</button></div>
+</div><div class="note"><b>Không ảnh hưởng kết quả mô phỏng:</b> Các tham số animation chỉ phục vụ đồ họa. V2.5.2 ưu tiên hướng chuyển động ổn định trái → phải; số xe hiển thị từng làn tỷ lệ với mật độ k=q/V và có nhãn k, Vtb trên animation.</div>
+<div class="roadBox"><div id="road" class="road"></div><div class="legend"><span><i class="dot" style="background:#22c55e"></i>Đủ khoảng cách</span><span><i class="dot" style="background:#f59e0b"></i>Gần ngưỡng</span><span><i class="dot" style="background:#ef4444"></i>Vi phạm</span></div></div>
+<div class="animInfo"><div class="box"><b>Số xe hiển thị</b><br><span id="animCars">-</span></div><div class="box"><b>Khoảng cách an toàn</b><br><span id="animSafe">theo V xe</span></div><div class="box"><b>Xe vi phạm</b><br><span id="animViolations">-</span></div><div class="box"><b>Tỷ lệ vi phạm tức thời</b><br><span id="animVioRate">-</span></div></div>
+</div></div>
+<div id="formulaTab" class="tabpage"><div class="card"><h3>6. Công thức</h3><p class="small"><b>V2.4.7:</b> người dùng đặt min/max vận tốc cho từng làn; animation phân bổ xe theo mật độ k=q/V của từng làn; mặc định là làn 1: V~U(60,100), làn 2: V~U(80,100), làn 3: V~U(100,120) km/h. <br><b>Qpeak = Qday × K.</b> Với mỗi lần mô phỏng và từng làn: <b>k=q/V_sample</b>, <b>N~Poisson(k×L)</b>, <b>s̄=1000/k</b>. <br><b>Car-following trong animation:</b> nếu gap &lt; d_safe thì xe sau giảm tốc; nếu gap đủ lớn thì xe tăng dần về vận tốc mong muốn. <br><b>Khoảng cách an toàn:</b> d_safe được xác định theo vận tốc hiện tại/mẫu vận tốc của xe. <b>Ngưỡng động:</b> k_safe=1000/d_safe.</p></div></div>
+<div class="footer">Copyright 2026 © <b>portlogistics.vn</b></div>
+</div>
+<script src="config.js"></script>
+<script>
+(function(){
+var animTimer=null, animCarsState=[];
+function el(id){return document.getElementById(id);}function valOf(id,def){var o=el(id);return o?o.value:def;}function setText(id,v){var o=el(id);if(o){o.innerHTML=v;}}function setVal(id,v){var o=el(id);if(o){o.value=v;}}
+function showErr(m){var e=el('err');if(e){e.style.display='block';e.innerHTML=m;}}
+function clearErr(){var e=el('err');if(e){e.style.display='none';e.innerHTML='';}}
+function num(id,def){var o=el(id);var v=o?parseFloat(o.value):def;return isFinite(v)?v:def;}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function safeD(v){return v<=60?35:(v<=80?55:(v<=100?70:100));}
+function fmt(x,d){d=(d==null)?1:d;if(!isFinite(x))return '-';return Number(x).toLocaleString('en-US',{maximumFractionDigits:d,minimumFractionDigits:d});}
+function pct(x){return isFinite(x)?(100*x).toFixed(1)+'%':'-';}
+function pois(l){l=Math.max(0,l);if(l<30){var L=Math.exp(-l),k=0,p=1;do{k++;p*=Math.random();}while(p>L);return k-1;}var u1=Math.max(Math.random(),1e-12),u2=Math.random(),z=Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2);return Math.max(0,Math.round(l+Math.sqrt(l)*z));}
+function gamma(a,b){a=Math.max(.001,a);b=Math.max(.001,b);if(a<1)return gamma(a+1,b)*Math.pow(Math.random(),1/a);var d=a-1/3,c=1/Math.sqrt(9*d);for(var t=0;t<50;t++){var u1=Math.max(Math.random(),1e-12),u2=Math.random(),x=Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2),v=Math.pow(1+c*x,3);if(v<=0)continue;var u=Math.max(Math.random(),1e-12);if(u<1-.0331*Math.pow(x,4))return b*d*v;if(Math.log(u)<.5*x*x+d*(1-v+Math.log(v)))return b*d*v;}return a*b;}
+function level(vc,k,j){if(vc<.55&&k<.4*j)return['Thấp','ok'];if(vc<.8&&k<.7*j)return['Trung bình','warnText'];if(vc<1&&k<j)return['Cao','warnText'];return['Rất cao','bad'];}
+function setK(id,txt,cls){var e=el(id);if(!e){return;}e.innerHTML=txt;e.className='v '+(cls||'');}
+function drawBars(id,labels,vals,title){var box=el(id);if(!box){return;}var max=1,i;for(i=0;i<vals.length;i++){if(vals[i]>max){max=vals[i];}}var h='<div class="small"><b>'+title+'</b></div>';for(i=0;i<vals.length;i++){var w=Math.max(1,100*vals[i]/max);h+='<div class="chartbar"><div class="lab">'+labels[i]+'</div><div class="track"><div class="fill" style="width:'+w+'%"></div></div><div class="val">'+fmt(vals[i],1)+'</div></div>';}box.innerHTML=h;}
+function hist(data,bins){var mn=Math.min.apply(null,data),mx=Math.max.apply(null,data);if(mx===mn)mx=mn+1;var c=[],lab=[],w=(mx-mn)/bins,i,idx;for(i=0;i<bins;i++)c[i]=0;for(i=0;i<data.length;i++){idx=Math.floor((data[i]-mn)/w);if(idx>=bins)idx=bins-1;if(idx<0)idx=0;c[idx]++;}for(i=0;i<bins;i++)lab.push(fmt(mn+w*(i+.5),1));return{lab:lab,c:c};}
+
+function speedRangeForLane(laneIndex){
+  // laneIndex starts from 0. Values are user-editable on screen.
+  var idx = laneIndex + 1;
+  var mnEl = el('lane'+idx+'Min');
+  var mxEl = el('lane'+idx+'Max');
+  var defaults = laneIndex===0 ? [60,100] : (laneIndex===1 ? [80,100] : [100,120]);
+  var mn = mnEl ? num('lane'+idx+'Min',defaults[0]) : defaults[0];
+  var mx = mxEl ? num('lane'+idx+'Max',defaults[1]) : defaults[1];
+  mn = clamp(mn,0,200);
+  mx = clamp(mx,0,200);
+  if(mx <= mn){ mx = mn + 1; }
+  return [mn,mx];
+}
+function sampleUniform(a,b){return a+(b-a)*Math.random();}
+function rangeLabel(r){return 'U('+Math.round(r[0])+','+Math.round(r[1])+')';}
+
+
+function driverParams(){
+  var list=[
+    {key:'careful',name:'Cẩn thận',cls:'behCareful',share:clamp(num('drvCareful',20),0,100),gap:clamp(num('gapCareful',1.2),0.3,3),rt:clamp(num('rtCareful',1.0),0.3,5),decelF:1.10,meaning:'Giữ khoảng cách lớn, phản ứng sớm'},
+    {key:'normal',name:'Bình thường',cls:'behNormal',share:clamp(num('drvNormal',60),0,100),gap:clamp(num('gapNormal',1.0),0.3,3),rt:clamp(num('rtNormal',1.5),0.3,5),decelF:1.00,meaning:'Hành vi trung bình theo giả thiết'},
+    {key:'aggressive',name:'Mạo hiểm',cls:'behAggressive',share:clamp(num('drvAggressive',15),0,100),gap:clamp(num('gapAggressive',0.75),0.3,3),rt:clamp(num('rtAggressive',1.3),0.3,5),decelF:0.95,meaning:'Bám sát hơn, biên an toàn nhỏ hơn'},
+    {key:'distracted',name:'Mất tập trung',cls:'behDistracted',share:clamp(num('drvDistracted',5),0,100),gap:clamp(num('gapDistracted',0.90),0.3,3),rt:clamp(num('rtDistracted',2.5),0.3,5),decelF:0.85,meaning:'Phản ứng chậm, rủi ro phanh tăng'}
+  ];
+  var sum=0,i;for(i=0;i<list.length;i++){sum+=list[i].share;}
+  if(sum<=0){list[0].share=20;list[1].share=60;list[2].share=15;list[3].share=5;sum=100;}
+  var cum=0;for(i=0;i<list.length;i++){list[i].p=list[i].share/sum;cum+=list[i].p;list[i].cum=cum;}list[list.length-1].cum=1;return list;
+}
+function sampleDriver(list){var u=Math.random();for(var i=0;i<list.length;i++){if(u<=list[i].cum){return list[i];}}return list[list.length-1];}
+function emptyBehaviorStats(list){var stats={},i;for(i=0;i<list.length;i++){stats[list[i].key]={key:list[i].key,name:list[i].name,cls:list[i].cls,share:list[i].share,obs:0,vioStd:0,vioDesired:0,react:0,brake:0,meaning:list[i].meaning};}return stats;}
+function mergeBehaviorStats(a,b){for(var k in b){if(!a[k]){a[k]={key:b[k].key,name:b[k].name,cls:b[k].cls,share:b[k].share,obs:0,vioStd:0,vioDesired:0,react:0,brake:0,meaning:b[k].meaning};}a[k].obs+=b[k].obs;a[k].vioStd+=b[k].vioStd;a[k].vioDesired+=b[k].vioDesired;a[k].react+=b[k].react;a[k].brake+=b[k].brake;}}
+function behaviorRiskRows(stats){var arr=[],k;for(k in stats){var s=stats[k],obs=Math.max(1,s.obs);arr.push({key:k,name:s.name,cls:s.cls,share:s.share,obs:s.obs,pVio:s.vioStd/obs,pDesired:s.vioDesired/obs,pReact:s.react/obs,pBrake:s.brake/obs,meaning:s.meaning});}arr.sort(function(a,b){return b.pVio-a.pVio;});return arr;}
+function dynSimLane(laneIndex, qPeakLane, Lkm, CV, steps, warmup, accelKmh, decelKmh, reactTime, emgDecel, driverList){
+  var rg=speedRangeForLane(laneIndex),vMean=(rg[0]+rg[1])/2,kTarget=qPeakLane/Math.max(vMean,1),expectedFull=kTarget*Lkm,nCap=90,simLkm=Lkm;
+  if(expectedFull>nCap && kTarget>0){simLkm=Math.max(1,Math.min(Lkm,nCap/kTarget));}
+  var n=Math.max(2,Math.min(nCap,Math.round(kTarget*simLkm)));if(!isFinite(n)||n<2){n=2;}
+  var roadM=simLkm*1000,carLen=5,cars=[],i;
+  for(i=0;i<n;i++){
+    var vd=sampleUniform(rg[0],rg[1]),drv=sampleDriver(driverList),jitter=(Math.random()-.5)*CV*roadM/Math.max(n,1),x=(i*roadM/n+jitter+roadM)%roadM;
+    cars.push({x:x,vDes:vd,vCur:vd,dStd:safeD(vd),dDesired:safeD(vd)*drv.gap,driver:drv});
+  }
+  var obs=0,vioStd=0,vioDesired=0,react=0,brake=0,sumGap=0,sumV=0,sumDStd=0,sumDDesired=0,densOver=0,beh=emptyBehaviorStats(driverList);
+  for(var t=0;t<steps;t++){
+    cars.sort(function(a,b){return a.x-b.x;});var dens=kTarget;
+    for(i=0;i<n;i++){
+      var cur=cars[i],front=cars[(i+1)%n],gap=front.x-cur.x-carLen;if(i===n-1){gap=(roadM-cur.x)+front.x-carLen;}if(gap<0){gap=0;}
+      cur.dStd=safeD(cur.vCur);cur.dDesired=cur.dStd*cur.driver.gap;
+      var observe=t>=warmup,needReact=false;
+      // Driver behavior: reaction threshold follows desired/behavioral gap.
+      if(gap<cur.dDesired){cur.vCur=Math.max(5,Math.min(front.vCur,cur.vCur-decelKmh*cur.driver.decelF));needReact=true;}
+      else if(gap<1.25*cur.dDesired){cur.vCur=Math.max(5,Math.min(cur.vCur,front.vCur+2));needReact=true;}
+      else{cur.vCur=Math.min(cur.vDes,cur.vCur+accelKmh);}
+      var vms=cur.vCur/3.6,fms=front.vCur/3.6,reqStop=vms*cur.driver.rt+Math.max(0,(vms*vms-fms*fms)/(2*Math.max(.5,emgDecel*cur.driver.decelF)))+carLen;
+      if(observe){
+        obs++;
+        var isStd=gap<cur.dStd,isDesired=gap<cur.dDesired,isBrake=gap<reqStop;
+        if(isStd){vioStd++;} if(isDesired){vioDesired++;} if(needReact){react++;} if(isBrake){brake++;}
+        if(dens>1000/Math.max(1,cur.dStd)){densOver++;}
+        sumGap+=gap;sumV+=cur.vCur;sumDStd+=cur.dStd;sumDDesired+=cur.dDesired;
+        var bs=beh[cur.driver.key];if(bs){bs.obs++;if(isStd){bs.vioStd++;}if(isDesired){bs.vioDesired++;}if(needReact){bs.react++;}if(isBrake){bs.brake++;}}
+      }
+    }
+    for(i=0;i<n;i++){cars[i].x=(cars[i].x+(cars[i].vCur/3.6)*0.35+roadM)%roadM;}
+  }
+  if(obs<1){obs=1;}
+  return {range:rangeLabel(rg),vDesired:vMean,vAdj:sumV/obs,n:n,nExpected:expectedFull,simLkm:simLkm,k:kTarget,safe:sumDStd/obs,safeDesired:sumDDesired/obs,gap:sumGap/obs,pVio:vioStd/obs,pVioDesired:vioDesired/obs,pReact:react/obs,pBrake:brake/obs,pDensity:densOver/obs,expected:expectedFull,beh:beh};
+}
+
+function congestionLevel(ci){
+  if(ci<0.40){return ['Thông thoáng','ok'];}
+  if(ci<0.60){return ['Đông nhẹ','warnText'];}
+  if(ci<0.80){return ['Ùn tắc trung bình','warnText'];}
+  return ['Ùn tắc cao','bad'];
+}
+function mainCongestionCause(vcComp,kComp,overComp,speedComp){
+  var arr=[
+    {name:'V/C cao - lưu lượng gần/vượt năng lực',v:vcComp},
+    {name:'Mật độ xe cao so với ngưỡng an toàn',v:kComp},
+    {name:'Mật độ thường xuyên vượt ngưỡng',v:overComp},
+    {name:'Vận tốc giảm mạnh do bám xe',v:speedComp}
+  ];
+  arr.sort(function(a,b){return b.v-a.v;});
+  return arr[0].name;
+}
+async function apiCheck(){
+  try{
+    var base=(window.APP_CONFIG&&window.APP_CONFIG.API_BASE_URL)||'';
+    var r=await fetch(base+'/health');
+    var j=await r.json();
+    setText('apiStatus','Backend status: OK - '+(j.version||'unknown'));
+  }catch(ex){setText('apiStatus','Backend status: lỗi kết nối backend - '+ex.message);}
+}
+function getInputs(){
+  return {
+    L:num('L',50), lanes:parseInt(valOf('lanes','3'),10)||3, Q:num('Q',35000), V:num('V',80), K:num('K',0.10), C:num('C',1800), CV:num('CV',0.75), N:parseInt(num('N',500),10)||500,
+    mode:valOf('mode','uniform'), thresholdMode:valOf('thresholdMode','dynamic'), jam:num('jam',60),
+    lane1Min:num('lane1Min',60), lane1Max:num('lane1Max',100), lane2Min:num('lane2Min',80), lane2Max:num('lane2Max',100), lane3Min:num('lane3Min',100), lane3Max:num('lane3Max',120),
+    accelStep:num('accelStep',1.2), decelStep:num('decelStep',3.0), dynSteps:parseInt(num('dynSteps',300),10)||300, warmupSteps:parseInt(num('warmupSteps',50),10)||50,
+    reactTime:num('reactTime',1.5), emgDecel:num('emgDecel',4.0),
+    drvCareful:num('drvCareful',20), drvNormal:num('drvNormal',60), drvAggressive:num('drvAggressive',15), drvDistracted:num('drvDistracted',5),
+    gapCareful:num('gapCareful',1.20), gapNormal:num('gapNormal',1.00), gapAggressive:num('gapAggressive',0.75), gapDistracted:num('gapDistracted',0.90),
+    rtCareful:num('rtCareful',1.0), rtNormal:num('rtNormal',1.5), rtAggressive:num('rtAggressive',1.3), rtDistracted:num('rtDistracted',2.5)
+  };
+}
+async function run(){
+clearErr();
+try{
+  var base=(window.APP_CONFIG&&window.APP_CONFIG.API_BASE_URL)||'';
+  var resp=await fetch(base+'/simulate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(getInputs())});
+  if(!resp.ok){throw new Error('HTTP '+resp.status);}
+  var data=await resp.json();
+  var k=data.kpis;
+  setK('k1',k.safe_avg);setK('k2',k.q_peak);setK('k3',k.density_avg);setK('k4',k.vc_ratio,k.vc_class);
+  setK('k5',k.warning,k.warning_class);setK('k6',k.p_violation,k.p_violation_class);setK('k7',k.p_density,k.p_density_class);setK('k8',k.expected_cars);setK('k9',k.gap_avg);setK('k10',k.threshold,'warnText');
+  setK('k11',k.p_reaction,k.p_reaction_class);setK('k12',k.p_brake,k.p_brake_class);setK('k13',k.v_adjusted);setK('k14',k.riskiest_driver,k.riskiest_class);setK('k15',k.risky_share);setK('k16',k.p_desired,k.p_desired_class);
+  setK('k17',k.congestion_index,k.congestion_class);setK('k18',k.congestion_level,k.congestion_class);setK('k19',k.congestion_cause,k.congestion_class);
+  var tb=el('tb');if(tb){tb.innerHTML='';for(var i=0;i<data.rows.length;i++){var r=data.rows[i],tr=document.createElement('tr');tr.innerHTML='<td>'+r.lane+'</td><td>'+r.range+'</td><td>'+r.v_desired+'</td><td>'+r.v_adjusted+'</td><td>'+r.q_day+'</td><td>'+r.q_peak+'</td><td>'+r.expected_cars+'</td><td>'+r.sim_cars+'</td><td>'+r.density+'</td><td>'+r.safe_avg+'</td><td>'+r.gap_avg+'</td><td>'+r.p_violation+'</td><td>'+r.p_desired+'</td><td>'+r.p_reaction+'</td><td>'+r.p_brake+'</td><td>'+r.p_density+'</td><td>'+r.level+'</td>';tb.appendChild(tr);}}
+  drawBars('densityChart',data.charts.density.labels,data.charts.density.values,data.charts.density.title);
+  drawBars('congestionChart',data.charts.congestion.labels,data.charts.congestion.values,data.charts.congestion.title);
+  drawBars('violationChart',data.charts.risk.labels,data.charts.risk.values,data.charts.risk.title);
+  var bt=el('behaviorTb');if(bt){bt.innerHTML='';for(var j=0;j<data.behavior.length;j++){var b=data.behavior[j],trb=document.createElement('tr');trb.innerHTML='<td class="'+b.cls+'">'+b.name+'</td><td>'+b.share+'</td><td>'+b.obs+'</td><td>'+b.p_violation+'</td><td>'+b.p_desired+'</td><td>'+b.p_reaction+'</td><td>'+b.p_brake+'</td><td style="text-align:left">'+b.meaning+'</td>';bt.appendChild(trb);}}
+  drawBars('behaviorChart',data.charts.behavior.labels,data.charts.behavior.values,data.charts.behavior.title);
+}catch(ex){showErr('Lỗi kết nối/tính toán backend: '+ex.message);}
+}
+function showTab(id,btn){var pages=document.getElementsByClassName('tabpage');for(var i=0;i<pages.length;i++){pages[i].className='tabpage';}var p=el(id);if(p){p.className='tabpage active';}var bs=document.querySelectorAll('.tabs button');for(i=0;i<bs.length;i++){bs[i].className='';}if(btn){btn.className='active';}else{var m={'mainTab':'tabMain','animTab':'tabAnim','formulaTab':'tabFormula'};var bb=el(m[id]);if(bb){bb.className='active';}}}
+function makeLaneLines(){
+var road=el('road');if(!road){return;}
+var old=road.querySelectorAll('.laneLine,.laneTag,.laneInfoTag');
+for(var k=0;k<old.length;k++){if(old[k]&&old[k].parentNode)old[k].parentNode.removeChild(old[k]);}
+var lanes=parseInt(valOf('lanes','3'),10)||3;var H=road.clientHeight||220;
+for(var i=0;i<lanes;i++){
+  if(i>0){var line=document.createElement('div');line.className='laneLine';line.style.top=(100*i/lanes)+'%';road.appendChild(line);}
+  var tag=document.createElement('div');tag.className='laneTag';tag.textContent='Làn '+(i+1);tag.style.top=(i*(H/lanes)+8)+'px';road.appendChild(tag);
+  var info=document.createElement('div');info.className='laneInfoTag';info.id='laneInfo'+(i+1);info.textContent='k=-- | Vtb=--';info.style.top=(i*(H/lanes)+8)+'px';road.appendChild(info);
+}}
+function updateLaneInfoTags(stats){
+  if(!stats){return;}
+  for(var i=0;i<stats.length;i++){
+    var o=el('laneInfo'+(i+1));
+    if(o){o.textContent='k='+fmt(stats[i].k,1)+' xe/km/làn | Vtb='+fmt(stats[i].vMean,0)+' km/h | hiển thị '+stats[i].count+' xe';}
+  }
+}
+function stopAnim(){if(animTimer){clearInterval(animTimer);animTimer=null;}}
+
+function autoDisplayCarLimit(expected,lanes,width){
+  var screen = width < 700 ? 24 : (width < 1100 ? 42 : 60);
+  var laneCap = lanes * 18;
+  var cap = Math.max(9, Math.min(screen, laneCap));
+  return Math.max(3, Math.min(expected, cap));
+}
+function startAnim(){try{
+stopAnim();run();makeLaneLines();
+var road=el('road');if(!road){showErr('Không tìm thấy vùng road để vẽ animation.');return;}road.className='road';
+var old=road.getElementsByClassName('car');while(old.length)old[0].parentNode.removeChild(old[0]);
+
+var Q=clamp(num('Q',35000),0,100000),K=clamp(num('K',.1),.001,.5),lanes=parseInt(valOf('lanes','3'),10)||3;
+var displayKm=clamp(num('animLen',2),.5,100),speedF=clamp(num('animSpeed',3),.5,10);
+var W=road.clientWidth||800,H=road.clientHeight||220,carW=38,minGap=clamp(num('animMinDrawGap',35),10,200);
+var anti=el('antiOverlap')?el('antiOverlap').checked:true;
+var accel=clamp(num('accelStep',1.2),0.1,20);
+var decel=clamp(num('decelStep',3.0),0.1,40);
+var driverList=driverParams();
+
+// V2.4.7: density-consistent lane allocation.
+// Số xe hiển thị theo từng làn được phân bổ theo mật độ mục tiêu k=q/Vmean,
+// không theo cảm giác vận tốc hay vòng lặp animation.
+var expectedTotal=0,laneStats=[],ln;
+for(ln=0;ln<lanes;ln++){
+  var rg=speedRangeForLane(ln),vMean=(rg[0]+rg[1])/2;
+  var share=(valOf('mode','uniform')==='uniform')?(1/lanes):((lanes===2)?([.58,.42][ln]):([.45,.35,.2][ln]));
+  var qLane=Q*K*share;
+  var kLane=qLane/Math.max(vMean,1);
+  var expected=kLane*displayKm;
+  expectedTotal+=expected;
+  laneStats.push({lane:ln,range:rg,vMean:vMean,share:share,qLane:qLane,k:kLane,expected:expected,count:0});
+}
+var limit=autoDisplayCarLimit(Math.max(3,Math.round(expectedTotal)),lanes,W);
+var assigned=0;
+for(ln=0;ln<lanes;ln++){
+  var raw=expectedTotal>0 ? limit*laneStats[ln].expected/expectedTotal : limit/lanes;
+  laneStats[ln].count=Math.max(1,Math.round(raw));
+  assigned+=laneStats[ln].count;
+}
+// điều chỉnh tổng số xe sau làm tròn, ưu tiên làn có mật độ cao hơn khi cần thêm xe
+while(assigned>limit){
+  var idxMax=0;for(ln=1;ln<lanes;ln++){if(laneStats[ln].count>laneStats[idxMax].count)idxMax=ln;}
+  if(laneStats[idxMax].count>1){laneStats[idxMax].count--;assigned--;}else{break;}
+}
+while(assigned<limit){
+  var idxAdd=0;for(ln=1;ln<lanes;ln++){if(laneStats[ln].k>laneStats[idxAdd].k)idxAdd=ln;}
+  laneStats[idxAdd].count++;assigned++;
+}
+// Nếu anti-overlap bật, tiếp tục giới hạn theo khoảng cách vẽ tối thiểu nhưng vẫn giữ tỷ lệ theo làn.
+var minPxBase=Math.max(carW+10,minGap/(displayKm*1000)*W);
+if(anti){
+  assigned=0;
+  for(ln=0;ln<lanes;ln++){
+    var capLane=Math.max(1,Math.floor(W/minPxBase));
+    laneStats[ln].count=Math.max(1,Math.min(laneStats[ln].count,capLane));
+    assigned+=laneStats[ln].count;
+  }
+}
+
+setVal('animExpectedCarsBox',fmt(expectedTotal,0)+' xe');
+setVal('animDisplayCarsBox',assigned+' xe');
+setText('animSpeedLabel',speedF.toFixed(1)+'×');
+updateLaneInfoTags(laneStats);
+
+animCarsState=[];
+var id=1;
+for(var lane=0;lane<lanes;lane++){
+  var rg2=laneStats[lane].range;
+  var count=laneStats[lane].count;
+  var gap=W/count;
+  for(var j=0;j<count;j++){
+    var vDesired=sampleUniform(rg2[0],rg2[1]);
+    var vCurrent=vDesired;
+    var drv=sampleDriver(driverList);var dCar=safeD(vCurrent);
+    var car=document.createElement('div');car.className='car';
+    var x=(j+.15)*gap+(Math.random()*4-2); if(x<0)x+=W;if(x>W)x-=W;
+    var y=lane*(H/lanes)+(H/lanes)/2-10;
+    car.style.left=x+'px';car.style.top=y+'px';
+    var lab=document.createElement('span');lab.className='carLabel';lab.innerHTML='V'+id;car.appendChild(lab);road.appendChild(car);
+    animCarsState.push({el:car,x:x,lane:lane,vDesired:vDesired,vCurrent:vCurrent,d:dCar,dDesired:dCar*drv.gap,driver:drv});
+    id++;
+  }
+}
+function updateCarFollowing(groups){
+  for(var key in groups){
+    var arr=groups[key];arr.sort(function(a,b){return a.x-b.x});
+    if(arr.length<2){
+      if(arr.length===1){arr[0].vCurrent=Math.min(arr[0].vDesired,arr[0].vCurrent+accel);}
+      continue;
+    }
+    for(var i=0;i<arr.length;i++){
+      var cur=arr[i],front=arr[(i+1)%arr.length];
+      var gapTrue=front.x-cur.x-carW;
+      if(i===arr.length-1)gapTrue=(W-cur.x)+front.x-carW;
+      var safePx=cur.dDesired/(displayKm*1000)*W;
+      var frontV=front.vCurrent;
+      if(gapTrue<safePx){
+        cur.vCurrent=Math.max(5,Math.min(frontV,cur.vCurrent-decel*cur.driver.decelF));
+      }else if(gapTrue<1.25*safePx){
+        cur.vCurrent=Math.max(5,Math.min(cur.vCurrent,frontV+2));
+      }else{
+        cur.vCurrent=Math.min(cur.vDesired,cur.vCurrent+accel);
+      }
+      cur.d=safeD(cur.vCurrent);cur.dDesired=cur.d*cur.driver.gap;
+    }
+  }
+}
+function step(){
+  var groups={},vio=0,i;
+  for(i=0;i<animCarsState.length;i++){
+    var c0=animCarsState[i];
+    if(!groups[c0.lane])groups[c0.lane]=[];
+    groups[c0.lane].push(c0);
+  }
+  updateCarFollowing(groups);
+
+  for(i=0;i<animCarsState.length;i++){
+    var c=animCarsState[i];
+    var pxSpeed=(c.vCurrent/80)*(1.7)*speedF;
+    if(pxSpeed<0.15)pxSpeed=0.15;
+    c.x+=pxSpeed;
+    if(c.x>W+60)c.x=-60-Math.random()*30;
+  }
+
+  groups={};
+  for(i=0;i<animCarsState.length;i++){
+    var c2=animCarsState[i];
+    if(!groups[c2.lane])groups[c2.lane]=[];
+    groups[c2.lane].push(c2);
+  }
+
+  for(var key in groups){
+    var arr=groups[key];arr.sort(function(a,b){return a.x-b.x});
+    for(i=0;i<arr.length;i++){
+      var cur=arr[i],front=arr[(i+1)%arr.length],gapTrue=front.x-cur.x-carW;
+      if(i===arr.length-1)gapTrue=(W-cur.x)+front.x-carW;
+      var safeStdPx=cur.d/(displayKm*1000)*W;
+      var safeDesiredPx=cur.dDesired/(displayKm*1000)*W;
+      if(gapTrue<safeStdPx){cur.el.className='car violate';vio++;}
+      else if(gapTrue<safeDesiredPx){cur.el.className='car warnCar';}
+      else cur.el.className='car';
+      cur.el.style.left=cur.x+'px';
+    }
+  }
+  setText('animCars',animCarsState.length+' xe');
+  setText('animSafe','theo V xe');
+  setText('animViolations',vio+' xe');
+  setText('animVioRate',(100*vio/Math.max(1,animCarsState.length)).toFixed(1)+'%');
+}
+step();animTimer=setInterval(step,33);
+}catch(ex){showErr('Lỗi animation: '+ex.message);}}
+function resetAnim(){stopAnim();var road=el('road');if(road){var old=road.getElementsByClassName('car');while(old.length)old[0].parentNode.removeChild(old[0]);}setText('animCars','-');setVal('animExpectedCarsBox','Tự động');setVal('animDisplayCarsBox','Tự động');setText('animSafe','-');setText('animViolations','-');setText('animVioRate','-');makeLaneLines();}
+function init(){
+try{
+  setText('status','JS status: OK - V2.5.2 Frontend-Backend đã khởi tạo.');
+  var b;
+  b=el('runBtn'); if(b){b.onclick=function(){run();};}
+  b=el('tabMain'); if(b){b.onclick=function(){showTab('mainTab',this);};}
+  b=el('tabAnim'); if(b){b.onclick=function(){showTab('animTab',this);};}
+  b=el('tabFormula'); if(b){b.onclick=function(){showTab('formulaTab',this);};}
+  b=el('startBtn'); if(b){b.onclick=function(){startAnim();};}
+  b=el('pauseBtn'); if(b){b.onclick=function(){stopAnim();};}
+  b=el('resetBtn'); if(b){b.onclick=function(){resetAnim();};}
+  b=el('animSpeed'); if(b){b.oninput=function(){setText('animSpeedLabel',(parseFloat(el('animSpeed').value)||3).toFixed(1)+'×');};}
+  makeLaneLines();
+  apiCheck();
+  run();
+}catch(ex){showErr('Lỗi khởi tạo: '+ex.message);}
+}
+init();
+})();
+</script>
+</body>
+</html>

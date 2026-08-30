@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="utf-8">
@@ -55,102 +55,102 @@ button.warn{background:#d35400;color:#fff}
 </style>
 </head>
 <body>
-<header><h1>MÃ´ phá»ng khoáº£ng cÃ¡ch an toÃ n, Ã¹n táº¯c vÃ  xÃ¡c suáº¥t vi pháº¡m - V2.5.2 Frontendâ€“Backend</h1><p> (CÃ¡c tham sá»‘ trong mÃ´ hÃ¬nh Ä‘Æ°á»£c giáº£ Ä‘á»‹nh. NgÆ°á»i dÃ¹ng cÃ³ thá»ƒ Ä‘iá»u chá»‰nh theo sá»‘ liá»‡u thá»±c táº¿).</p></header>
+<header><h1>Mô phỏng khoảng cách an toàn, ùn tắc và xác suất vi phạm - V2.5.2 Frontend–Backend</h1><p> (Các tham số trong mô hình được giả định. Người dùng có thể điều chỉnh theo số liệu thực tế).</p></header>
 <div class="wrap">
-<div id="status" class="status">JS status: Ä‘ang khá»Ÿi táº¡o...</div>
-<div id="apiStatus" class="status">Backend status: chÆ°a kiá»ƒm tra</div>
+<div id="status" class="status">JS status: đang khởi tạo...</div>
+<div id="apiStatus" class="status">Backend status: chưa kiểm tra</div>
 <div id="err" class="error"></div>
 <div class="tabs">
-<button id="tabMain" class="tabbtn active" type="button">Dashboard mÃ´ phá»ng</button>
-<button id="tabAnim" class="tabbtn" type="button">Animation dÃ²ng xe</button>
-<button id="tabFormula" class="tabbtn" type="button">CÃ´ng thá»©c</button>
+<button id="tabMain" class="tabbtn active" type="button">Dashboard mô phỏng</button>
+<button id="tabAnim" class="tabbtn" type="button">Animation dòng xe</button>
+<button id="tabFormula" class="tabbtn" type="button">Công thức</button>
 </div>
 <div id="mainTab" class="tabpage active">
-<div class="card note"><b>MÃ´ hÃ¬nh V2.5.2:</b> Hai chá»‰ tiÃªu: <b>P(%) vi pháº¡m chuáº©n</b> so vá»›i khoáº£ng cÃ¡ch an toÃ n phÃ¡p lÃ½/chung d_safe(V), vÃ  <b>P(%) khÃ´ng Ä‘áº¡t khoáº£ng cÃ¡ch mong muá»‘n</b> so vá»›i d_safe(V) Ã— há»‡ sá»‘ hÃ nh vi. </div>
-<div class="card rules"><div class="rule"><b>V â‰¤ 60 km/h</b><br><span>35 m</span></div><div class="rule"><b>60 &lt; V â‰¤ 80</b><br><span>55 m</span></div><div class="rule"><b>80 &lt; V â‰¤ 100</b><br><span>70 m</span></div><div class="rule"><b>100 &lt; V â‰¤ 120</b><br><span>100 m</span></div></div>
-<div class="card"><h3>1. Tham sá»‘ Ä‘áº§u vÃ o</h3><div class="grid">
-<div><label>Chiá»u dÃ i tuyáº¿n L (km)</label><input id="L" type="number" value="50"></div>
-<div><label>Sá»‘ lÃ n</label><select id="lanes"><option>2</option><option selected>3</option></select></div>
-<div><label>LÆ°u lÆ°á»£ng Q (xe/ngÃ y Ä‘Ãªm)</label><input id="Q" type="number" value="35000"></div>
-<div><label>Tá»‘c Ä‘á»™ tham chiáº¿u V (legacy, km/h)</label><input id="V" type="number" value="80"></div>
-<div><label>Há»‡ sá»‘ giá» cao Ä‘iá»ƒm K</label><input id="K" type="number" step="0.005" value="0.10"></div>
-<div><label>NÄƒng lá»±c C (xe/h/lÃ n)</label><input id="C" type="number" value="1800"></div>
-<div><label>CV khoáº£ng cÃ¡ch xe</label><input id="CV" type="number" step="0.05" value="0.75"></div>
-<div><label>Sá»‘ láº§n mÃ´ phá»ng</label><input id="N" type="number" value="500"></div>
-<div><label>PhÃ¢n bá»• lÆ°u lÆ°á»£ng</label><select id="mode"><option value="uniform">Äá»u theo lÃ n</option><option value="unbalanced">KhÃ´ng Ä‘á»u theo lÃ n</option></select></div>
-<div><label>Cháº¿ Ä‘á»™ ngÆ°á»¡ng</label><select id="thresholdMode"><option value="dynamic">NgÆ°á»¡ng an toÃ n Ä‘á»™ng</option><option value="fixed">NgÆ°á»¡ng cá»‘ Ä‘á»‹nh</option></select></div>
-<div><label>NgÆ°á»¡ng cá»‘ Ä‘á»‹nh</label><input id="jam" type="number" value="60"></div>
+<div class="card note"><b>Mô hình V2.5.2:</b> Hai chỉ tiêu: <b>P(%) vi phạm chuẩn</b> so với khoảng cách an toàn pháp lý/chung d_safe(V), và <b>P(%) không đạt khoảng cách mong muốn</b> so với d_safe(V) × hệ số hành vi. </div>
+<div class="card rules"><div class="rule"><b>V ≤ 60 km/h</b><br><span>35 m</span></div><div class="rule"><b>60 &lt; V ≤ 80</b><br><span>55 m</span></div><div class="rule"><b>80 &lt; V ≤ 100</b><br><span>70 m</span></div><div class="rule"><b>100 &lt; V ≤ 120</b><br><span>100 m</span></div></div>
+<div class="card"><h3>1. Tham số đầu vào</h3><div class="grid">
+<div><label>Chiều dài tuyến L (km)</label><input id="L" type="number" value="50"></div>
+<div><label>Số làn</label><select id="lanes"><option>2</option><option selected>3</option></select></div>
+<div><label>Lưu lượng Q (xe/ngày đêm)</label><input id="Q" type="number" value="35000"></div>
+<div><label>Tốc độ tham chiếu V (legacy, km/h)</label><input id="V" type="number" value="80"></div>
+<div><label>Hệ số giờ cao điểm K</label><input id="K" type="number" step="0.005" value="0.10"></div>
+<div><label>Năng lực C (xe/h/làn)</label><input id="C" type="number" value="1800"></div>
+<div><label>CV khoảng cách xe</label><input id="CV" type="number" step="0.05" value="0.75"></div>
+<div><label>Số lần mô phỏng</label><input id="N" type="number" value="500"></div>
+<div><label>Phân bổ lưu lượng</label><select id="mode"><option value="uniform">Đều theo làn</option><option value="unbalanced">Không đều theo làn</option></select></div>
+<div><label>Chế độ ngưỡng</label><select id="thresholdMode"><option value="dynamic">Ngưỡng an toàn động</option><option value="fixed">Ngưỡng cố định</option></select></div>
+<div><label>Ngưỡng cố định</label><input id="jam" type="number" value="60"></div>
 <div><label>&nbsp;</label><button id="runBtn" type="button">RUN Simulation</button></div>
-</div><p class="small">V2.5.2 dÃ¹ng váº­n tá»‘c ngáº«u nhiÃªn theo tá»«ng lÃ n. CÃ¡c giÃ¡ trá»‹ min/max bÃªn dÆ°á»›i cÃ³ thá»ƒ Ä‘iá»u chá»‰nh trá»±c tiáº¿p, Ã¡p dá»¥ng cho cáº£ Dashboard vÃ  Animation. Ã” V chá»‰ cÃ²n lÃ  tá»‘c Ä‘á»™ tham chiáº¿u legacy.</p></div>
+</div><p class="small">V2.5.2 dùng vận tốc ngẫu nhiên theo từng làn. Các giá trị min/max bên dưới có thể điều chỉnh trực tiếp, áp dụng cho cả Dashboard và Animation. Ô V chỉ còn là tốc độ tham chiếu legacy.</p></div>
 
 <div class="card">
-<h3>1b. Tham sá»‘ random speed theo tá»«ng lÃ n</h3>
+<h3>1b. Tham số random speed theo từng làn</h3>
 <div class="grid">
-<div><label>LÃ n 1 - V min (km/h)</label><input id="lane1Min" type="number" value="60"></div>
-<div><label>LÃ n 1 - V max (km/h)</label><input id="lane1Max" type="number" value="100"></div>
-<div><label>LÃ n 2 - V min (km/h)</label><input id="lane2Min" type="number" value="80"></div>
-<div><label>LÃ n 2 - V max (km/h)</label><input id="lane2Max" type="number" value="100"></div>
-<div><label>LÃ n 3 - V min (km/h)</label><input id="lane3Min" type="number" value="100"></div>
-<div><label>LÃ n 3 - V max (km/h)</label><input id="lane3Max" type="number" value="120"></div>
-<div><label>Gia tá»‘c phá»¥c há»“i (km/h/step)</label><input id="accelStep" type="number" step="0.1" value="1.2"></div>
-<div><label>Giáº£m tá»‘c khi bÃ¡m sÃ¡t (km/h/step)</label><input id="decelStep" type="number" step="0.1" value="3.0"></div>
+<div><label>Làn 1 - V min (km/h)</label><input id="lane1Min" type="number" value="60"></div>
+<div><label>Làn 1 - V max (km/h)</label><input id="lane1Max" type="number" value="100"></div>
+<div><label>Làn 2 - V min (km/h)</label><input id="lane2Min" type="number" value="80"></div>
+<div><label>Làn 2 - V max (km/h)</label><input id="lane2Max" type="number" value="100"></div>
+<div><label>Làn 3 - V min (km/h)</label><input id="lane3Min" type="number" value="100"></div>
+<div><label>Làn 3 - V max (km/h)</label><input id="lane3Max" type="number" value="120"></div>
+<div><label>Gia tốc phục hồi (km/h/step)</label><input id="accelStep" type="number" step="0.1" value="1.2"></div>
+<div><label>Giảm tốc khi bám sát (km/h/step)</label><input id="decelStep" type="number" step="0.1" value="3.0"></div>
 </div>
-<p class="small">Tá»« V2.4.7, car-following Ä‘Æ°á»£c dÃ¹ng cho cáº£ Dashboard vÃ  Animation. CÃ¡c tham sá»‘ gia tá»‘c/giáº£m tá»‘c sáº½ áº£nh hÆ°á»Ÿng trá»±c tiáº¿p Ä‘áº¿n xÃ¡c suáº¥t vi pháº¡m Ä‘á»™ng.</p>
-</div>
-
-<div class="card">
-<h3>1c. Tham sá»‘ mÃ´ phá»ng rá»§i ro Ä‘á»™ng V2.4.7</h3>
-<div class="grid">
-<div><label>Sá»‘ bÆ°á»›c mÃ´ phá»ng Ä‘á»™ng</label><input id="dynSteps" type="number" value="300"></div>
-<div><label>BÆ°á»›c bá» qua ban Ä‘áº§u</label><input id="warmupSteps" type="number" value="50"></div>
-<div><label>Thá»i gian pháº£n á»©ng lÃ¡i xe (s)</label><input id="reactTime" type="number" step="0.1" value="1.5"></div>
-<div><label>Giáº£m tá»‘c kháº©n cáº¥p (m/sÂ²)</label><input id="emgDecel" type="number" step="0.1" value="4.0"></div>
-</div>
-<p class="small"><b>P vi pháº¡m chuáº©n</b> = tá»· lá»‡ quan sÃ¡t cÃ³ gap &lt; d_safe(V). <b>P khÃ´ng Ä‘áº¡t khoáº£ng cÃ¡ch mong muá»‘n</b> = tá»· lá»‡ quan sÃ¡t cÃ³ gap &lt; d_safe(V) Ã— gap_factor_driver. <b>P pháº£n á»©ng giáº£m tá»‘c</b> = tá»· lá»‡ xe pháº£i giáº£m tá»‘c vÃ¬ Ä‘i gáº§n xe trÆ°á»›c. <b>P rá»§i ro phanh</b> = tá»· lá»‡ tÃ¬nh huá»‘ng khoáº£ng cÃ¡ch nhá» hÆ¡n khoáº£ng cÃ¡ch dá»«ng xe sÆ¡ bá»™.</p>
+<p class="small">Từ V2.4.7, car-following được dùng cho cả Dashboard và Animation. Các tham số gia tốc/giảm tốc sẽ ảnh hưởng trực tiếp đến xác suất vi phạm động.</p>
 </div>
 
 <div class="card">
-<h3>1d. Tham sá»‘ hÃ nh vi lÃ¡i xe V2.5</h3>
+<h3>1c. Tham số mô phỏng rủi ro động V2.4.7</h3>
 <div class="grid">
-<div><label>Tá»· lá»‡ tÃ i xáº¿ cáº©n tháº­n (%)</label><input id="drvCareful" type="number" value="20"></div>
-<div><label>Tá»· lá»‡ tÃ i xáº¿ bÃ¬nh thÆ°á»ng (%)</label><input id="drvNormal" type="number" value="60"></div>
-<div><label>Tá»· lá»‡ tÃ i xáº¿ máº¡o hiá»ƒm (%)</label><input id="drvAggressive" type="number" value="15"></div>
-<div><label>Tá»· lá»‡ tÃ i xáº¿ máº¥t táº­p trung (%)</label><input id="drvDistracted" type="number" value="5"></div>
-<div><label>Há»‡ sá»‘ khoáº£ng cÃ¡ch - Cáº©n tháº­n</label><input id="gapCareful" type="number" step="0.05" value="1.20"></div>
-<div><label>Há»‡ sá»‘ khoáº£ng cÃ¡ch - BÃ¬nh thÆ°á»ng</label><input id="gapNormal" type="number" step="0.05" value="1.00"></div>
-<div><label>Há»‡ sá»‘ khoáº£ng cÃ¡ch - Máº¡o hiá»ƒm</label><input id="gapAggressive" type="number" step="0.05" value="0.75"></div>
-<div><label>Há»‡ sá»‘ khoáº£ng cÃ¡ch - Máº¥t táº­p trung</label><input id="gapDistracted" type="number" step="0.05" value="0.90"></div>
-<div><label>Thá»i gian pháº£n á»©ng - Cáº©n tháº­n (s)</label><input id="rtCareful" type="number" step="0.1" value="1.0"></div>
-<div><label>Thá»i gian pháº£n á»©ng - BÃ¬nh thÆ°á»ng (s)</label><input id="rtNormal" type="number" step="0.1" value="1.5"></div>
-<div><label>Thá»i gian pháº£n á»©ng - Máº¡o hiá»ƒm (s)</label><input id="rtAggressive" type="number" step="0.1" value="1.3"></div>
-<div><label>Thá»i gian pháº£n á»©ng - Máº¥t táº­p trung (s)</label><input id="rtDistracted" type="number" step="0.1" value="2.5"></div>
+<div><label>Số bước mô phỏng động</label><input id="dynSteps" type="number" value="300"></div>
+<div><label>Bước bỏ qua ban đầu</label><input id="warmupSteps" type="number" value="50"></div>
+<div><label>Thời gian phản ứng lái xe (s)</label><input id="reactTime" type="number" step="0.1" value="1.5"></div>
+<div><label>Giảm tốc khẩn cấp (m/s²)</label><input id="emgDecel" type="number" step="0.1" value="4.0"></div>
 </div>
-<p class="small">CÃ¡c tá»· lá»‡ tÃ i xáº¿ sáº½ Ä‘Æ°á»£c tá»± Ä‘á»™ng chuáº©n hÃ³a náº¿u tá»•ng khÃ¡c 100%. Há»‡ sá»‘ khoáº£ng cÃ¡ch lá»›n hÆ¡n 1 nghÄ©a lÃ  tÃ i xáº¿ giá»¯ khoáº£ng cÃ¡ch tháº­n trá»ng hÆ¡n; nhá» hÆ¡n 1 nghÄ©a lÃ  cÃ³ xu hÆ°á»›ng bÃ¡m sÃ¡t hÆ¡n.</p>
+<p class="small"><b>P vi phạm chuẩn</b> = tỷ lệ quan sát có gap &lt; d_safe(V). <b>P không đạt khoảng cách mong muốn</b> = tỷ lệ quan sát có gap &lt; d_safe(V) × gap_factor_driver. <b>P phản ứng giảm tốc</b> = tỷ lệ xe phải giảm tốc vì đi gần xe trước. <b>P rủi ro phanh</b> = tỷ lệ tình huống khoảng cách nhỏ hơn khoảng cách dừng xe sơ bộ.</p>
 </div>
-<div class="card"><h3>2. Káº¿t quáº£ tá»•ng há»£p</h3><div class="kpis">
-<div class="kpi"><div class="t">Khoáº£ng cÃ¡ch an toÃ n TB</div><div id="k1" class="v">-</div></div><div class="kpi"><div class="t">LÆ°u lÆ°á»£ng giá» cao Ä‘iá»ƒm</div><div id="k2" class="v">-</div></div><div class="kpi"><div class="t">Máº­t Ä‘á»™ TB</div><div id="k3" class="v">-</div></div><div class="kpi"><div class="t">V/C ratio</div><div id="k4" class="v">-</div></div>
-<div class="kpi"><div class="t">Má»©c cáº£nh bÃ¡o</div><div id="k5" class="v">-</div></div><div class="kpi"><div class="t">P vi pháº¡m chuáº©n</div><div id="k6" class="v">-</div></div><div class="kpi"><div class="t">P máº­t Ä‘á»™ vÆ°á»£t ngÆ°á»¡ng</div><div id="k7" class="v">-</div></div><div class="kpi"><div class="t">Sá»‘ xe ká»³ vá»ng</div><div id="k8" class="v">-</div></div>
-<div class="kpi"><div class="t">Khoáº£ng cÃ¡ch TB</div><div id="k9" class="v">-</div></div><div class="kpi"><div class="t">NgÆ°á»¡ng Ä‘ang dÃ¹ng</div><div id="k10" class="v">-</div></div><div class="kpi"><div class="t">NhÃ³m tÃ i xáº¿ rá»§i ro nháº¥t</div><div id="k14" class="v">-</div></div><div class="kpi"><div class="t">Tá»· lá»‡ máº¡o hiá»ƒm + máº¥t táº­p trung</div><div id="k15" class="v">-</div></div><div class="kpi"><div class="t">P khÃ´ng Ä‘áº¡t khoáº£ng cÃ¡ch mong muá»‘n</div><div id="k16" class="v">-</div></div><div class="kpi"><div class="t">Congestion Index</div><div id="k17" class="v">-</div></div><div class="kpi"><div class="t">Má»©c Ã¹n táº¯c tá»•ng há»£p</div><div id="k18" class="v">-</div></div><div class="kpi"><div class="t">NguyÃªn nhÃ¢n chÃ­nh gÃ¢y Ã¹n táº¯c</div><div id="k19" class="v">-</div></div><div class="kpi"><div class="t">P pháº£n á»©ng giáº£m tá»‘c</div><div id="k11" class="v">-</div></div><div class="kpi"><div class="t">P rá»§i ro phanh khÃ´ng ká»‹p</div><div id="k12" class="v">-</div></div><div class="kpi"><div class="t">V trung bÃ¬nh sau Ä‘iá»u chá»‰nh</div><div id="k13" class="v">-</div></div>
+
+<div class="card">
+<h3>1d. Tham số hành vi lái xe V2.5</h3>
+<div class="grid">
+<div><label>Tỷ lệ tài xế cẩn thận (%)</label><input id="drvCareful" type="number" value="20"></div>
+<div><label>Tỷ lệ tài xế bình thường (%)</label><input id="drvNormal" type="number" value="60"></div>
+<div><label>Tỷ lệ tài xế mạo hiểm (%)</label><input id="drvAggressive" type="number" value="15"></div>
+<div><label>Tỷ lệ tài xế mất tập trung (%)</label><input id="drvDistracted" type="number" value="5"></div>
+<div><label>Hệ số khoảng cách - Cẩn thận</label><input id="gapCareful" type="number" step="0.05" value="1.20"></div>
+<div><label>Hệ số khoảng cách - Bình thường</label><input id="gapNormal" type="number" step="0.05" value="1.00"></div>
+<div><label>Hệ số khoảng cách - Mạo hiểm</label><input id="gapAggressive" type="number" step="0.05" value="0.75"></div>
+<div><label>Hệ số khoảng cách - Mất tập trung</label><input id="gapDistracted" type="number" step="0.05" value="0.90"></div>
+<div><label>Thời gian phản ứng - Cẩn thận (s)</label><input id="rtCareful" type="number" step="0.1" value="1.0"></div>
+<div><label>Thời gian phản ứng - Bình thường (s)</label><input id="rtNormal" type="number" step="0.1" value="1.5"></div>
+<div><label>Thời gian phản ứng - Mạo hiểm (s)</label><input id="rtAggressive" type="number" step="0.1" value="1.3"></div>
+<div><label>Thời gian phản ứng - Mất tập trung (s)</label><input id="rtDistracted" type="number" step="0.1" value="2.5"></div>
+</div>
+<p class="small">Các tỷ lệ tài xế sẽ được tự động chuẩn hóa nếu tổng khác 100%. Hệ số khoảng cách lớn hơn 1 nghĩa là tài xế giữ khoảng cách thận trọng hơn; nhỏ hơn 1 nghĩa là có xu hướng bám sát hơn.</p>
+</div>
+<div class="card"><h3>2. Kết quả tổng hợp</h3><div class="kpis">
+<div class="kpi"><div class="t">Khoảng cách an toàn TB</div><div id="k1" class="v">-</div></div><div class="kpi"><div class="t">Lưu lượng giờ cao điểm</div><div id="k2" class="v">-</div></div><div class="kpi"><div class="t">Mật độ TB</div><div id="k3" class="v">-</div></div><div class="kpi"><div class="t">V/C ratio</div><div id="k4" class="v">-</div></div>
+<div class="kpi"><div class="t">Mức cảnh báo</div><div id="k5" class="v">-</div></div><div class="kpi"><div class="t">P vi phạm chuẩn</div><div id="k6" class="v">-</div></div><div class="kpi"><div class="t">P mật độ vượt ngưỡng</div><div id="k7" class="v">-</div></div><div class="kpi"><div class="t">Số xe kỳ vọng</div><div id="k8" class="v">-</div></div>
+<div class="kpi"><div class="t">Khoảng cách TB</div><div id="k9" class="v">-</div></div><div class="kpi"><div class="t">Ngưỡng đang dùng</div><div id="k10" class="v">-</div></div><div class="kpi"><div class="t">Nhóm tài xế rủi ro nhất</div><div id="k14" class="v">-</div></div><div class="kpi"><div class="t">Tỷ lệ mạo hiểm + mất tập trung</div><div id="k15" class="v">-</div></div><div class="kpi"><div class="t">P không đạt khoảng cách mong muốn</div><div id="k16" class="v">-</div></div><div class="kpi"><div class="t">Congestion Index</div><div id="k17" class="v">-</div></div><div class="kpi"><div class="t">Mức ùn tắc tổng hợp</div><div id="k18" class="v">-</div></div><div class="kpi"><div class="t">Nguyên nhân chính gây ùn tắc</div><div id="k19" class="v">-</div></div><div class="kpi"><div class="t">P phản ứng giảm tốc</div><div id="k11" class="v">-</div></div><div class="kpi"><div class="t">P rủi ro phanh không kịp</div><div id="k12" class="v">-</div></div><div class="kpi"><div class="t">V trung bình sau điều chỉnh</div><div id="k13" class="v">-</div></div>
 </div></div>
-<div class="card"><h3>3. PhÃ¢n phá»‘i máº­t Ä‘á»™</h3><div id="densityChart"></div></div>
-<div class="card"><h3>4. Chá»‰ sá»‘ Ã¹n táº¯c tá»•ng há»£p</h3><div id="congestionChart"></div><p class="small"><b>Congestion Index</b> káº¿t há»£p 4 thÃ nh pháº§n: V/C, máº­t Ä‘á»™ so vá»›i ngÆ°á»¡ng an toÃ n, xÃ¡c suáº¥t vÆ°á»£t ngÆ°á»¡ng máº­t Ä‘á»™ vÃ  suy giáº£m váº­n tá»‘c sau Ä‘iá»u chá»‰nh.</p></div><div class="card"><h3>5. XÃ¡c suáº¥t rá»§i ro Ä‘á»™ng</h3><div id="violationChart"></div></div>
-<div class="card"><h3>6. Rá»§i ro theo hÃ nh vi lÃ¡i xe</h3><div id="behaviorChart"></div><div class="tableWrap"><table><thead><tr><th>NhÃ³m tÃ i xáº¿</th><th>Tá»· lá»‡ Ä‘áº§u vÃ o</th><th>Sá»‘ quan sÃ¡t</th><th>P vi pháº¡m chuáº©n</th><th>P khÃ´ng Ä‘áº¡t KC mong muá»‘n</th><th>P pháº£n á»©ng</th><th>P rá»§i ro phanh</th><th>Ã nghÄ©a</th></tr></thead><tbody id="behaviorTb"></tbody></table></div></div><div class="card"><h3>7. Báº£ng theo lÃ n</h3><div class="tableWrap"><table><thead><tr><th>LÃ n</th><th>Dáº£i tá»‘c Ä‘á»™</th><th>V mong muá»‘n TB</th><th>V sau Ä‘iá»u chá»‰nh</th><th>Q ngÃ y</th><th>Q peak</th><th>Sá»‘ xe ká»³ vá»ng</th><th>Xe mÃ´ phá»ng</th><th>Máº­t Ä‘á»™</th><th>d_safe TB</th><th>Gap TB</th><th>P vi pháº¡m chuáº©n</th><th>P khÃ´ng Ä‘áº¡t KC mong muá»‘n</th><th>P pháº£n á»©ng</th><th>P rá»§i ro phanh</th><th>P vÆ°á»£t ngÆ°á»¡ng</th><th>ÄÃ¡nh giÃ¡</th></tr></thead><tbody id="tb"></tbody></table></div></div>
+<div class="card"><h3>3. Phân phối mật độ</h3><div id="densityChart"></div></div>
+<div class="card"><h3>4. Chỉ số ùn tắc tổng hợp</h3><div id="congestionChart"></div><p class="small"><b>Congestion Index</b> kết hợp 4 thành phần: V/C, mật độ so với ngưỡng an toàn, xác suất vượt ngưỡng mật độ và suy giảm vận tốc sau điều chỉnh.</p></div><div class="card"><h3>5. Xác suất rủi ro động</h3><div id="violationChart"></div></div>
+<div class="card"><h3>6. Rủi ro theo hành vi lái xe</h3><div id="behaviorChart"></div><div class="tableWrap"><table><thead><tr><th>Nhóm tài xế</th><th>Tỷ lệ đầu vào</th><th>Số quan sát</th><th>P vi phạm chuẩn</th><th>P không đạt KC mong muốn</th><th>P phản ứng</th><th>P rủi ro phanh</th><th>Ý nghĩa</th></tr></thead><tbody id="behaviorTb"></tbody></table></div></div><div class="card"><h3>7. Bảng theo làn</h3><div class="tableWrap"><table><thead><tr><th>Làn</th><th>Dải tốc độ</th><th>V mong muốn TB</th><th>V sau điều chỉnh</th><th>Q ngày</th><th>Q peak</th><th>Số xe kỳ vọng</th><th>Xe mô phỏng</th><th>Mật độ</th><th>d_safe TB</th><th>Gap TB</th><th>P vi phạm chuẩn</th><th>P không đạt KC mong muốn</th><th>P phản ứng</th><th>P rủi ro phanh</th><th>P vượt ngưỡng</th><th>Đánh giá</th></tr></thead><tbody id="tb"></tbody></table></div></div>
 </div>
-<div id="animTab" class="tabpage"><div class="card"><h3>Animation dÃ²ng xe</h3><p class="small">Animation speed, Minimum render gap vÃ  Anti-overlap rendering chá»‰ thay Ä‘á»•i cÃ¡ch váº½ xe trÃªn mÃ n hÃ¬nh, <b>khÃ´ng áº£nh hÆ°á»Ÿng káº¿t quáº£ mÃ´ phá»ng</b>. V2.5.2 phÃ¢n bá»• sá»‘ xe hiá»ƒn thá»‹ theo máº­t Ä‘á»™ tá»«ng lÃ n</p>
+<div id="animTab" class="tabpage"><div class="card"><h3>Animation dòng xe</h3><p class="small">Animation speed, Minimum render gap và Anti-overlap rendering chỉ thay đổi cách vẽ xe trên màn hình, <b>không ảnh hưởng kết quả mô phỏng</b>. V2.5.2 phân bổ số xe hiển thị theo mật độ từng làn</p>
 <div class="grid">
-<div><label>Chiá»u dÃ i Ä‘oáº¡n hiá»ƒn thá»‹ (km)</label><input id="animLen" type="number" value="2"></div>
-<div><label>Animation speed: <span id="animSpeedLabel">3.0Ã—</span></label><input id="animSpeed" type="range" value="3" min="0.5" max="10" step="0.5"></div>
+<div><label>Chiều dài đoạn hiển thị (km)</label><input id="animLen" type="number" value="2"></div>
+<div><label>Animation speed: <span id="animSpeedLabel">3.0×</span></label><input id="animSpeed" type="range" value="3" min="0.5" max="10" step="0.5"></div>
 <div><label>Minimum render gap (m)</label><input id="animMinDrawGap" type="number" value="35"></div>
-<div><label>Anti-overlap rendering</label><label class="small"><input id="antiOverlap" type="checkbox" checked> Báº­t chá»‘ng chá»“ng xe</label></div>
-<div><label>Sá»‘ xe mÃ´ phá»ng thá»±c táº¿</label><input id="animExpectedCarsBox" type="text" value="Tá»± Ä‘á»™ng" readonly></div>
-<div><label>Sá»‘ xe hiá»ƒn thá»‹ tá»± Ä‘á»™ng</label><input id="animDisplayCarsBox" type="text" value="Tá»± Ä‘á»™ng" readonly></div>
+<div><label>Anti-overlap rendering</label><label class="small"><input id="antiOverlap" type="checkbox" checked> Bật chống chồng xe</label></div>
+<div><label>Số xe mô phỏng thực tế</label><input id="animExpectedCarsBox" type="text" value="Tự động" readonly></div>
+<div><label>Số xe hiển thị tự động</label><input id="animDisplayCarsBox" type="text" value="Tự động" readonly></div>
 <div><label>&nbsp;</label><button id="startBtn" type="button">Start / Refresh</button></div><div><label>&nbsp;</label><button id="pauseBtn" class="alt" type="button">Pause</button></div><div><label>&nbsp;</label><button id="resetBtn" class="warn" type="button">Reset</button></div>
-</div><div class="note"><b>KhÃ´ng áº£nh hÆ°á»Ÿng káº¿t quáº£ mÃ´ phá»ng:</b> CÃ¡c tham sá»‘ animation chá»‰ phá»¥c vá»¥ Ä‘á»“ há»a. V2.5.2 Æ°u tiÃªn hÆ°á»›ng chuyá»ƒn Ä‘á»™ng á»•n Ä‘á»‹nh trÃ¡i â†’ pháº£i; sá»‘ xe hiá»ƒn thá»‹ tá»«ng lÃ n tá»· lá»‡ vá»›i máº­t Ä‘á»™ k=q/V vÃ  cÃ³ nhÃ£n k, Vtb trÃªn animation.</div>
-<div class="roadBox"><div id="road" class="road"></div><div class="legend"><span><i class="dot" style="background:#22c55e"></i>Äá»§ khoáº£ng cÃ¡ch</span><span><i class="dot" style="background:#f59e0b"></i>Gáº§n ngÆ°á»¡ng</span><span><i class="dot" style="background:#ef4444"></i>Vi pháº¡m</span></div></div>
-<div class="animInfo"><div class="box"><b>Sá»‘ xe hiá»ƒn thá»‹</b><br><span id="animCars">-</span></div><div class="box"><b>Khoáº£ng cÃ¡ch an toÃ n</b><br><span id="animSafe">theo V xe</span></div><div class="box"><b>Xe vi pháº¡m</b><br><span id="animViolations">-</span></div><div class="box"><b>Tá»· lá»‡ vi pháº¡m tá»©c thá»i</b><br><span id="animVioRate">-</span></div></div>
+</div><div class="note"><b>Không ảnh hưởng kết quả mô phỏng:</b> Các tham số animation chỉ phục vụ đồ họa. V2.5.2 ưu tiên hướng chuyển động ổn định trái → phải; số xe hiển thị từng làn tỷ lệ với mật độ k=q/V và có nhãn k, Vtb trên animation.</div>
+<div class="roadBox"><div id="road" class="road"></div><div class="legend"><span><i class="dot" style="background:#22c55e"></i>Đủ khoảng cách</span><span><i class="dot" style="background:#f59e0b"></i>Gần ngưỡng</span><span><i class="dot" style="background:#ef4444"></i>Vi phạm</span></div></div>
+<div class="animInfo"><div class="box"><b>Số xe hiển thị</b><br><span id="animCars">-</span></div><div class="box"><b>Khoảng cách an toàn</b><br><span id="animSafe">theo V xe</span></div><div class="box"><b>Xe vi phạm</b><br><span id="animViolations">-</span></div><div class="box"><b>Tỷ lệ vi phạm tức thời</b><br><span id="animVioRate">-</span></div></div>
 </div></div>
-<div id="formulaTab" class="tabpage"><div class="card"><h3>6. CÃ´ng thá»©c</h3><p class="small"><b>V2.4.7:</b> ngÆ°á»i dÃ¹ng Ä‘áº·t min/max váº­n tá»‘c cho tá»«ng lÃ n; animation phÃ¢n bá»• xe theo máº­t Ä‘á»™ k=q/V cá»§a tá»«ng lÃ n; máº·c Ä‘á»‹nh lÃ  lÃ n 1: V~U(60,100), lÃ n 2: V~U(80,100), lÃ n 3: V~U(100,120) km/h. <br><b>Qpeak = Qday Ã— K.</b> Vá»›i má»—i láº§n mÃ´ phá»ng vÃ  tá»«ng lÃ n: <b>k=q/V_sample</b>, <b>N~Poisson(kÃ—L)</b>, <b>sÌ„=1000/k</b>. <br><b>Car-following trong animation:</b> náº¿u gap &lt; d_safe thÃ¬ xe sau giáº£m tá»‘c; náº¿u gap Ä‘á»§ lá»›n thÃ¬ xe tÄƒng dáº§n vá» váº­n tá»‘c mong muá»‘n. <br><b>Khoáº£ng cÃ¡ch an toÃ n:</b> d_safe Ä‘Æ°á»£c xÃ¡c Ä‘á»‹nh theo váº­n tá»‘c hiá»‡n táº¡i/máº«u váº­n tá»‘c cá»§a xe. <b>NgÆ°á»¡ng Ä‘á»™ng:</b> k_safe=1000/d_safe.</p></div></div>
-<div class="footer">Copyright 2026 Â© <b>portlogistics.vn</b></div>
+<div id="formulaTab" class="tabpage"><div class="card"><h3>6. Công thức</h3><p class="small"><b>V2.4.7:</b> người dùng đặt min/max vận tốc cho từng làn; animation phân bổ xe theo mật độ k=q/V của từng làn; mặc định là làn 1: V~U(60,100), làn 2: V~U(80,100), làn 3: V~U(100,120) km/h. <br><b>Qpeak = Qday × K.</b> Với mỗi lần mô phỏng và từng làn: <b>k=q/V_sample</b>, <b>N~Poisson(k×L)</b>, <b>s̄=1000/k</b>. <br><b>Car-following trong animation:</b> nếu gap &lt; d_safe thì xe sau giảm tốc; nếu gap đủ lớn thì xe tăng dần về vận tốc mong muốn. <br><b>Khoảng cách an toàn:</b> d_safe được xác định theo vận tốc hiện tại/mẫu vận tốc của xe. <b>Ngưỡng động:</b> k_safe=1000/d_safe.</p></div></div>
+<div class="footer">Copyright 2026 © <b>portlogistics.vn</b></div>
 </div>
 <script>
 window.APP_CONFIG = {
@@ -168,7 +168,7 @@ function fmt(x,d){d=(d==null)?1:d;if(!isFinite(x))return '-';return Number(x).to
 function pct(x){return isFinite(x)?(100*x).toFixed(1)+'%':'-';}
 function pois(l){l=Math.max(0,l);if(l<30){var L=Math.exp(-l),k=0,p=1;do{k++;p*=Math.random();}while(p>L);return k-1;}var u1=Math.max(Math.random(),1e-12),u2=Math.random(),z=Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2);return Math.max(0,Math.round(l+Math.sqrt(l)*z));}
 function gamma(a,b){a=Math.max(.001,a);b=Math.max(.001,b);if(a<1)return gamma(a+1,b)*Math.pow(Math.random(),1/a);var d=a-1/3,c=1/Math.sqrt(9*d);for(var t=0;t<50;t++){var u1=Math.max(Math.random(),1e-12),u2=Math.random(),x=Math.sqrt(-2*Math.log(u1))*Math.cos(2*Math.PI*u2),v=Math.pow(1+c*x,3);if(v<=0)continue;var u=Math.max(Math.random(),1e-12);if(u<1-.0331*Math.pow(x,4))return b*d*v;if(Math.log(u)<.5*x*x+d*(1-v+Math.log(v)))return b*d*v;}return a*b;}
-function level(vc,k,j){if(vc<.55&&k<.4*j)return['Tháº¥p','ok'];if(vc<.8&&k<.7*j)return['Trung bÃ¬nh','warnText'];if(vc<1&&k<j)return['Cao','warnText'];return['Ráº¥t cao','bad'];}
+function level(vc,k,j){if(vc<.55&&k<.4*j)return['Thấp','ok'];if(vc<.8&&k<.7*j)return['Trung bình','warnText'];if(vc<1&&k<j)return['Cao','warnText'];return['Rất cao','bad'];}
 function setK(id,txt,cls){var e=el(id);if(!e){return;}e.innerHTML=txt;e.className='v '+(cls||'');}
 function drawBars(id,labels,vals,title){var box=el(id);if(!box){return;}var max=1,i;for(i=0;i<vals.length;i++){if(vals[i]>max){max=vals[i];}}var h='<div class="small"><b>'+title+'</b></div>';for(i=0;i<vals.length;i++){var w=Math.max(1,100*vals[i]/max);h+='<div class="chartbar"><div class="lab">'+labels[i]+'</div><div class="track"><div class="fill" style="width:'+w+'%"></div></div><div class="val">'+fmt(vals[i],1)+'</div></div>';}box.innerHTML=h;}
 function hist(data,bins){var mn=Math.min.apply(null,data),mx=Math.max.apply(null,data);if(mx===mn)mx=mn+1;var c=[],lab=[],w=(mx-mn)/bins,i,idx;for(i=0;i<bins;i++)c[i]=0;for(i=0;i<data.length;i++){idx=Math.floor((data[i]-mn)/w);if(idx>=bins)idx=bins-1;if(idx<0)idx=0;c[idx]++;}for(i=0;i<bins;i++)lab.push(fmt(mn+w*(i+.5),1));return{lab:lab,c:c};}
@@ -192,10 +192,10 @@ function rangeLabel(r){return 'U('+Math.round(r[0])+','+Math.round(r[1])+')';}
 
 function driverParams(){
   var list=[
-    {key:'careful',name:'Cáº©n tháº­n',cls:'behCareful',share:clamp(num('drvCareful',20),0,100),gap:clamp(num('gapCareful',1.2),0.3,3),rt:clamp(num('rtCareful',1.0),0.3,5),decelF:1.10,meaning:'Giá»¯ khoáº£ng cÃ¡ch lá»›n, pháº£n á»©ng sá»›m'},
-    {key:'normal',name:'BÃ¬nh thÆ°á»ng',cls:'behNormal',share:clamp(num('drvNormal',60),0,100),gap:clamp(num('gapNormal',1.0),0.3,3),rt:clamp(num('rtNormal',1.5),0.3,5),decelF:1.00,meaning:'HÃ nh vi trung bÃ¬nh theo giáº£ thiáº¿t'},
-    {key:'aggressive',name:'Máº¡o hiá»ƒm',cls:'behAggressive',share:clamp(num('drvAggressive',15),0,100),gap:clamp(num('gapAggressive',0.75),0.3,3),rt:clamp(num('rtAggressive',1.3),0.3,5),decelF:0.95,meaning:'BÃ¡m sÃ¡t hÆ¡n, biÃªn an toÃ n nhá» hÆ¡n'},
-    {key:'distracted',name:'Máº¥t táº­p trung',cls:'behDistracted',share:clamp(num('drvDistracted',5),0,100),gap:clamp(num('gapDistracted',0.90),0.3,3),rt:clamp(num('rtDistracted',2.5),0.3,5),decelF:0.85,meaning:'Pháº£n á»©ng cháº­m, rá»§i ro phanh tÄƒng'}
+    {key:'careful',name:'Cẩn thận',cls:'behCareful',share:clamp(num('drvCareful',20),0,100),gap:clamp(num('gapCareful',1.2),0.3,3),rt:clamp(num('rtCareful',1.0),0.3,5),decelF:1.10,meaning:'Giữ khoảng cách lớn, phản ứng sớm'},
+    {key:'normal',name:'Bình thường',cls:'behNormal',share:clamp(num('drvNormal',60),0,100),gap:clamp(num('gapNormal',1.0),0.3,3),rt:clamp(num('rtNormal',1.5),0.3,5),decelF:1.00,meaning:'Hành vi trung bình theo giả thiết'},
+    {key:'aggressive',name:'Mạo hiểm',cls:'behAggressive',share:clamp(num('drvAggressive',15),0,100),gap:clamp(num('gapAggressive',0.75),0.3,3),rt:clamp(num('rtAggressive',1.3),0.3,5),decelF:0.95,meaning:'Bám sát hơn, biên an toàn nhỏ hơn'},
+    {key:'distracted',name:'Mất tập trung',cls:'behDistracted',share:clamp(num('drvDistracted',5),0,100),gap:clamp(num('gapDistracted',0.90),0.3,3),rt:clamp(num('rtDistracted',2.5),0.3,5),decelF:0.85,meaning:'Phản ứng chậm, rủi ro phanh tăng'}
   ];
   var sum=0,i;for(i=0;i<list.length;i++){sum+=list[i].share;}
   if(sum<=0){list[0].share=20;list[1].share=60;list[2].share=15;list[3].share=5;sum=100;}
@@ -242,17 +242,17 @@ function dynSimLane(laneIndex, qPeakLane, Lkm, CV, steps, warmup, accelKmh, dece
 }
 
 function congestionLevel(ci){
-  if(ci<0.40){return ['ThÃ´ng thoÃ¡ng','ok'];}
-  if(ci<0.60){return ['ÄÃ´ng nháº¹','warnText'];}
-  if(ci<0.80){return ['Ã™n táº¯c trung bÃ¬nh','warnText'];}
-  return ['Ã™n táº¯c cao','bad'];
+  if(ci<0.40){return ['Thông thoáng','ok'];}
+  if(ci<0.60){return ['Đông nhẹ','warnText'];}
+  if(ci<0.80){return ['Ùn tắc trung bình','warnText'];}
+  return ['Ùn tắc cao','bad'];
 }
 function mainCongestionCause(vcComp,kComp,overComp,speedComp){
   var arr=[
-    {name:'V/C cao - lÆ°u lÆ°á»£ng gáº§n/vÆ°á»£t nÄƒng lá»±c',v:vcComp},
-    {name:'Máº­t Ä‘á»™ xe cao so vá»›i ngÆ°á»¡ng an toÃ n',v:kComp},
-    {name:'Máº­t Ä‘á»™ thÆ°á»ng xuyÃªn vÆ°á»£t ngÆ°á»¡ng',v:overComp},
-    {name:'Váº­n tá»‘c giáº£m máº¡nh do bÃ¡m xe',v:speedComp}
+    {name:'V/C cao - lưu lượng gần/vượt năng lực',v:vcComp},
+    {name:'Mật độ xe cao so với ngưỡng an toàn',v:kComp},
+    {name:'Mật độ thường xuyên vượt ngưỡng',v:overComp},
+    {name:'Vận tốc giảm mạnh do bám xe',v:speedComp}
   ];
   arr.sort(function(a,b){return b.v-a.v;});
   return arr[0].name;
@@ -263,7 +263,7 @@ async function apiCheck(){
     var r=await fetch(base+'/health');
     var j=await r.json();
     setText('apiStatus','Backend status: OK - '+(j.version||'unknown'));
-  }catch(ex){setText('apiStatus','Backend status: lá»—i káº¿t ná»‘i backend - '+ex.message);}
+  }catch(ex){setText('apiStatus','Backend status: lỗi kết nối backend - '+ex.message);}
 }
 function getInputs(){
   return {
@@ -295,7 +295,7 @@ try{
   drawBars('violationChart',data.charts.risk.labels,data.charts.risk.values,data.charts.risk.title);
   var bt=el('behaviorTb');if(bt){bt.innerHTML='';for(var j=0;j<data.behavior.length;j++){var b=data.behavior[j],trb=document.createElement('tr');trb.innerHTML='<td class="'+b.cls+'">'+b.name+'</td><td>'+b.share+'</td><td>'+b.obs+'</td><td>'+b.p_violation+'</td><td>'+b.p_desired+'</td><td>'+b.p_reaction+'</td><td>'+b.p_brake+'</td><td style="text-align:left">'+b.meaning+'</td>';bt.appendChild(trb);}}
   drawBars('behaviorChart',data.charts.behavior.labels,data.charts.behavior.values,data.charts.behavior.title);
-}catch(ex){showErr('Lá»—i káº¿t ná»‘i/tÃ­nh toÃ¡n backend: '+ex.message);}
+}catch(ex){showErr('Lỗi kết nối/tính toán backend: '+ex.message);}
 }
 function showTab(id,btn){var pages=document.getElementsByClassName('tabpage');for(var i=0;i<pages.length;i++){pages[i].className='tabpage';}var p=el(id);if(p){p.className='tabpage active';}var bs=document.querySelectorAll('.tabs button');for(i=0;i<bs.length;i++){bs[i].className='';}if(btn){btn.className='active';}else{var m={'mainTab':'tabMain','animTab':'tabAnim','formulaTab':'tabFormula'};var bb=el(m[id]);if(bb){bb.className='active';}}}
 function makeLaneLines(){
@@ -305,14 +305,14 @@ for(var k=0;k<old.length;k++){if(old[k]&&old[k].parentNode)old[k].parentNode.rem
 var lanes=parseInt(valOf('lanes','3'),10)||3;var H=road.clientHeight||220;
 for(var i=0;i<lanes;i++){
   if(i>0){var line=document.createElement('div');line.className='laneLine';line.style.top=(100*i/lanes)+'%';road.appendChild(line);}
-  var tag=document.createElement('div');tag.className='laneTag';tag.textContent='LÃ n '+(i+1);tag.style.top=(i*(H/lanes)+8)+'px';road.appendChild(tag);
+  var tag=document.createElement('div');tag.className='laneTag';tag.textContent='Làn '+(i+1);tag.style.top=(i*(H/lanes)+8)+'px';road.appendChild(tag);
   var info=document.createElement('div');info.className='laneInfoTag';info.id='laneInfo'+(i+1);info.textContent='k=-- | Vtb=--';info.style.top=(i*(H/lanes)+8)+'px';road.appendChild(info);
 }}
 function updateLaneInfoTags(stats){
   if(!stats){return;}
   for(var i=0;i<stats.length;i++){
     var o=el('laneInfo'+(i+1));
-    if(o){o.textContent='k='+fmt(stats[i].k,1)+' xe/km/lÃ n | Vtb='+fmt(stats[i].vMean,0)+' km/h | hiá»ƒn thá»‹ '+stats[i].count+' xe';}
+    if(o){o.textContent='k='+fmt(stats[i].k,1)+' xe/km/làn | Vtb='+fmt(stats[i].vMean,0)+' km/h | hiển thị '+stats[i].count+' xe';}
   }
 }
 function stopAnim(){if(animTimer){clearInterval(animTimer);animTimer=null;}}
@@ -325,7 +325,7 @@ function autoDisplayCarLimit(expected,lanes,width){
 }
 function startAnim(){try{
 stopAnim();run();makeLaneLines();
-var road=el('road');if(!road){showErr('KhÃ´ng tÃ¬m tháº¥y vÃ¹ng road Ä‘á»ƒ váº½ animation.');return;}road.className='road';
+var road=el('road');if(!road){showErr('Không tìm thấy vùng road để vẽ animation.');return;}road.className='road';
 var old=road.getElementsByClassName('car');while(old.length)old[0].parentNode.removeChild(old[0]);
 
 var Q=clamp(num('Q',35000),0,100000),K=clamp(num('K',.1),.001,.5),lanes=parseInt(valOf('lanes','3'),10)||3;
@@ -337,8 +337,8 @@ var decel=clamp(num('decelStep',3.0),0.1,40);
 var driverList=driverParams();
 
 // V2.4.7: density-consistent lane allocation.
-// Sá»‘ xe hiá»ƒn thá»‹ theo tá»«ng lÃ n Ä‘Æ°á»£c phÃ¢n bá»• theo máº­t Ä‘á»™ má»¥c tiÃªu k=q/Vmean,
-// khÃ´ng theo cáº£m giÃ¡c váº­n tá»‘c hay vÃ²ng láº·p animation.
+// Số xe hiển thị theo từng làn được phân bổ theo mật độ mục tiêu k=q/Vmean,
+// không theo cảm giác vận tốc hay vòng lặp animation.
 var expectedTotal=0,laneStats=[],ln;
 for(ln=0;ln<lanes;ln++){
   var rg=speedRangeForLane(ln),vMean=(rg[0]+rg[1])/2;
@@ -356,7 +356,7 @@ for(ln=0;ln<lanes;ln++){
   laneStats[ln].count=Math.max(1,Math.round(raw));
   assigned+=laneStats[ln].count;
 }
-// Ä‘iá»u chá»‰nh tá»•ng sá»‘ xe sau lÃ m trÃ²n, Æ°u tiÃªn lÃ n cÃ³ máº­t Ä‘á»™ cao hÆ¡n khi cáº§n thÃªm xe
+// điều chỉnh tổng số xe sau làm tròn, ưu tiên làn có mật độ cao hơn khi cần thêm xe
 while(assigned>limit){
   var idxMax=0;for(ln=1;ln<lanes;ln++){if(laneStats[ln].count>laneStats[idxMax].count)idxMax=ln;}
   if(laneStats[idxMax].count>1){laneStats[idxMax].count--;assigned--;}else{break;}
@@ -365,7 +365,7 @@ while(assigned<limit){
   var idxAdd=0;for(ln=1;ln<lanes;ln++){if(laneStats[ln].k>laneStats[idxAdd].k)idxAdd=ln;}
   laneStats[idxAdd].count++;assigned++;
 }
-// Náº¿u anti-overlap báº­t, tiáº¿p tá»¥c giá»›i háº¡n theo khoáº£ng cÃ¡ch váº½ tá»‘i thiá»ƒu nhÆ°ng váº«n giá»¯ tá»· lá»‡ theo lÃ n.
+// Nếu anti-overlap bật, tiếp tục giới hạn theo khoảng cách vẽ tối thiểu nhưng vẫn giữ tỷ lệ theo làn.
 var minPxBase=Math.max(carW+10,minGap/(displayKm*1000)*W);
 if(anti){
   assigned=0;
@@ -378,7 +378,7 @@ if(anti){
 
 setVal('animExpectedCarsBox',fmt(expectedTotal,0)+' xe');
 setVal('animDisplayCarsBox',assigned+' xe');
-setText('animSpeedLabel',speedF.toFixed(1)+'Ã—');
+setText('animSpeedLabel',speedF.toFixed(1)+'×');
 updateLaneInfoTags(laneStats);
 
 animCarsState=[];
@@ -467,11 +467,11 @@ function step(){
   setText('animVioRate',(100*vio/Math.max(1,animCarsState.length)).toFixed(1)+'%');
 }
 step();animTimer=setInterval(step,33);
-}catch(ex){showErr('Lá»—i animation: '+ex.message);}}
-function resetAnim(){stopAnim();var road=el('road');if(road){var old=road.getElementsByClassName('car');while(old.length)old[0].parentNode.removeChild(old[0]);}setText('animCars','-');setVal('animExpectedCarsBox','Tá»± Ä‘á»™ng');setVal('animDisplayCarsBox','Tá»± Ä‘á»™ng');setText('animSafe','-');setText('animViolations','-');setText('animVioRate','-');makeLaneLines();}
+}catch(ex){showErr('Lỗi animation: '+ex.message);}}
+function resetAnim(){stopAnim();var road=el('road');if(road){var old=road.getElementsByClassName('car');while(old.length)old[0].parentNode.removeChild(old[0]);}setText('animCars','-');setVal('animExpectedCarsBox','Tự động');setVal('animDisplayCarsBox','Tự động');setText('animSafe','-');setText('animViolations','-');setText('animVioRate','-');makeLaneLines();}
 function init(){
 try{
-  setText('status','JS status: OK - V2.5.2 Frontend-Backend Ä‘Ã£ khá»Ÿi táº¡o.');
+  setText('status','JS status: OK - V2.5.2 Frontend-Backend đã khởi tạo.');
   var b;
   b=el('runBtn'); if(b){b.onclick=function(){run();};}
   b=el('tabMain'); if(b){b.onclick=function(){showTab('mainTab',this);};}
@@ -480,11 +480,11 @@ try{
   b=el('startBtn'); if(b){b.onclick=function(){startAnim();};}
   b=el('pauseBtn'); if(b){b.onclick=function(){stopAnim();};}
   b=el('resetBtn'); if(b){b.onclick=function(){resetAnim();};}
-  b=el('animSpeed'); if(b){b.oninput=function(){setText('animSpeedLabel',(parseFloat(el('animSpeed').value)||3).toFixed(1)+'Ã—');};}
+  b=el('animSpeed'); if(b){b.oninput=function(){setText('animSpeedLabel',(parseFloat(el('animSpeed').value)||3).toFixed(1)+'×');};}
   makeLaneLines();
   apiCheck();
   run();
-}catch(ex){showErr('Lá»—i khá»Ÿi táº¡o: '+ex.message);}
+}catch(ex){showErr('Lỗi khởi tạo: '+ex.message);}
 }
 init();
 })();

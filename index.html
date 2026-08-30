@@ -152,7 +152,11 @@ button.warn{background:#d35400;color:#fff}
 <div id="formulaTab" class="tabpage"><div class="card"><h3>6. Công thức</h3><p class="small"><b>V2.4.7:</b> người dùng đặt min/max vận tốc cho từng làn; animation phân bổ xe theo mật độ k=q/V của từng làn; mặc định là làn 1: V~U(60,100), làn 2: V~U(80,100), làn 3: V~U(100,120) km/h. <br><b>Qpeak = Qday × K.</b> Với mỗi lần mô phỏng và từng làn: <b>k=q/V_sample</b>, <b>N~Poisson(k×L)</b>, <b>s̄=1000/k</b>. <br><b>Car-following trong animation:</b> nếu gap &lt; d_safe thì xe sau giảm tốc; nếu gap đủ lớn thì xe tăng dần về vận tốc mong muốn. <br><b>Khoảng cách an toàn:</b> d_safe được xác định theo vận tốc hiện tại/mẫu vận tốc của xe. <b>Ngưỡng động:</b> k_safe=1000/d_safe.</p></div></div>
 <div class="footer">Copyright 2026 © <b>portlogistics.vn</b></div>
 </div>
-<script src="config.js?v=20260830-3"></script>
+<script src="config.js?v=20260830-4"></script>
+<script>
+window.APP_CONFIG = {
+  API_BASE_URL: "https://traffic-safety-v252-backend.onrender.com"
+};
 <script>
 (function(){
 var animTimer=null, animCarsState=[];
